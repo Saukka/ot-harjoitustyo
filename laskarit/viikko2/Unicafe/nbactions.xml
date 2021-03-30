@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM-testikattavuus</actionName>
+            <displayName>testikattavuus</displayName>
+            <goals>
+                <goal>jacoco:report</goal>
+            </goals>
+        </action>
+        <action>
+            <actionName>CUSTOM-jacoco</actionName>
+            <displayName>jacoco</displayName>
+            <goals>
+                <goal>jacoco:report</goal>
+            </goals>
+        </action>
+        <action>
+            <actionName>CUSTOM-jacoco-testi2</actionName>
+            <displayName>jacoco-testi2</displayName>
+            <goals>
+                <goal>jacoco:report</goal>
+            </goals>
+        </action>
+    </actions>
