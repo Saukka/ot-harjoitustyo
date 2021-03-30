@@ -1,8 +1,5 @@
 # työaikakirjanpito
 
-| päivä | aika | mitä tein  |
-| :----:|:-----| :-----|
-|30.3.  | 3    | Vaatimusmäärittelyn tekeminen |
-| yht   | 3    | |
+30.3. Vaatimusmäärittelyn tekeminen 3h
 
-
+yhteensä: 3h
