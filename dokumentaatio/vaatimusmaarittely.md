@@ -14,7 +14,7 @@ Sovelluksen avulla käyttäjä voi pelata perinteistä Tetris-peliä ja halutess
 
 - Pisteitä saa sorruttamalla rivejä sekä soft ja hard droppaamalla. Rivi sortuu, kun vaakasuunnassa jokainen ruutu on palikan täyttämä, jolloin rivi poistuu ja rivin yläpuolella olevat rivit putoavat alaspäin. Taso kasvaa, kun tietty määrä rivejä on sorrutettu.
 
-- Peliareenan vasemmalla puolella laatikko, jossa on näkyvillä nykyinen taso ja sorrettujen rivien määrä. Oikealla puolella on next-niminen laatikko, jossa näkyy seuraava palikka.
+- Peliareenan vasemmalla puolella laatikko, jossa on näkyvillä nykyinen taso ja sorrutettujen rivien määrä. Oikealla puolella on next-niminen laatikko, jossa näkyy seuraava palikka.
 
 ## Jatkokehitysideoita
 
