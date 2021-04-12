@@ -30,6 +30,10 @@ public class Maksukortti {
             this.arvo = 150;
         }
     }
+    
+    public double getSaldo() {
+        return this.arvo;
+    }
 
     @Override
     public String toString() {

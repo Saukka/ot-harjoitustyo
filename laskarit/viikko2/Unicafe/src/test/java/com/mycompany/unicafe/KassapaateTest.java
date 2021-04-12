@@ -14,7 +14,6 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author saulisorvari
  */
 public class KassapaateTest {
     
@@ -53,8 +52,6 @@ public class KassapaateTest {
         assertEquals(100000, paate.kassassaRahaa());
         assertEquals(0,paate.edullisiaLounaitaMyyty());
     }
-    
-    
-    
+    // aika alkaa loppua joten en ehdi tehdä tehtäviä loppuun
     
 }
