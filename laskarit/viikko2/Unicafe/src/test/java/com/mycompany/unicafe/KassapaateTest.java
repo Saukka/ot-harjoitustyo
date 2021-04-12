@@ -53,5 +53,10 @@ public class KassapaateTest {
         assertEquals(0,paate.edullisiaLounaitaMyyty());
     }
     // aika alkaa loppua joten en ehdi tehdä tehtäviä loppuun
+<<<<<<< HEAD
+=======
+    
+    
+>>>>>>> 3789304ae484d5df21f4e09e729b056a1ab4a19d
     
 }
