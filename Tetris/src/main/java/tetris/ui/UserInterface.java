@@ -11,7 +11,6 @@ import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.Scene;
 import javafx.geometry.Insets;
-import javafx.scene.control.Label;
  
 public class UserInterface extends Application {
     
@@ -25,7 +24,6 @@ public class UserInterface extends Application {
                 
         BorderPane setUp = new BorderPane();
         setUp.setCenter(button);
-        setUp.setTop(new Label("Toimiiko"));
         
         setUp.setPadding(new Insets(0,0,50,0));
         
