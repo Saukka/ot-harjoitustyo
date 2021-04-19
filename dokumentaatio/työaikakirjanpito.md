@@ -8,4 +8,10 @@
 
 13.4 Projektin Koodaamista. Tetris-palasten muodot valmiiksi ja niiden käyttö Board-luokassa 7h
 
-yhteensä: 17h
+16.4 Palikoiden liikuttaminen ja pelialueelle asettelu 3h
+
+18.4 Palikan liikkuminen alaspäin ja palikan kääntäminen 2h
+
+19.4 Parempi suunnittelu pelialueen koordinaatistolle, palikan hard-droppaaminen, rivien sorruttaminen 9h
+
+yhteensä: 31h
