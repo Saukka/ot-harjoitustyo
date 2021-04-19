@@ -2,13 +2,12 @@
 package tetris.domain;
 
 
-import java.awt.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.Scene;
 import javafx.scene.shape.Rectangle;
-import javax.swing.*;
-import java.util.HashMap;
-import java.util.Map;
+import javafx.scene.paint.Color;
+import java.util.Collections;
+import java.util.ArrayList;
 
 
 
@@ -33,14 +32,16 @@ public class Board {
     int[][] spots;
     int[][] coords;
     
-    Map<Rectangle, Integer> placedPieces;
     int[][] newCoordinates;
+    Color[] colors;
+    ArrayList<Integer> placed;
     
-    public Board() {
+    public Board() {  
         newCoordinates = new int[4][2];
         rectangle = new Rectangle[4];
         spots = new int[widthSquares][heightSquares];
-        placedPieces = new HashMap<>();
+        colors = new Color[]{Color.WHITE, Color.LIGHTPINK, Color.LIGHTGREEN, Color.LIGHTBLUE, Color.LIGHTSALMON, Color.LIGHTCORAL, Color.VIOLET, Color.GOLD};
+        placed = new ArrayList<>();
     }
     
     void newPiece() {
@@ -48,7 +49,7 @@ public class Board {
         currentPiece.setRandomShape();
         
         currentX = widthSquares/2;
-        currentY = 3;
+        currentY = -currentPiece.minY();
         
         /* coords = new int[4][2];
         
@@ -56,13 +57,13 @@ public class Board {
             coords[i][0] = currentPiece.getCoords()[i][0] + currentX;
             coords[i][1] = currentPiece.getCoords()[i][1] + currentY;
         } */
-        
         drawPiece();
     }
     
     void drawPiece() {
         for (int i = 0; i < 4; i++) {
             rectangle[i] = new Rectangle((currentPiece.getCoords()[i][0] + currentX)*squareWidth,(currentPiece.getCoords()[i][1] + currentY)*squareWidth, squareWidth, squareWidth);
+            rectangle[i].setFill(colors[currentPiece.current.ordinal()]);
             pane.getChildren().add(rectangle[i]);
         }
     } 
@@ -86,7 +87,10 @@ public class Board {
     
     
     void movePieceDown(int squares) {
-        
+        if (squares == 1 && !checkBelow(currentY)) {
+            place();
+            return;
+        }
         for (int i = 0; i < 4; i++) {
             rectangle[i].setY(rectangle[i].getY()+squareWidth*squares);
         }
@@ -95,7 +99,7 @@ public class Board {
     
     boolean checkBelow(int y) {
         for (int i = 0; i < 4; i++) {
-            if (y == 19 || spots[currentPiece.getCoords()[i][0]+currentX][currentPiece.getCoords()[i][1]+y-1] == 1) {
+            if (y + currentPiece.maxY() == 19 || spots[currentPiece.getCoords()[i][0]+currentX][currentPiece.getCoords()[i][1]+y+1] == 1) {
                 return false;
             }
         }
@@ -112,12 +116,11 @@ public class Board {
         return true;
     }
     
-    /* boolean checkOne(int x, int y) {
-        return !(x < 0 || x > widthSquares || spots[x][y] == 1);
-    } */
-    
     
     void rotatePieceLeft() {
+        if (currentPiece.current.ordinal() == 1) {
+            return;
+        }
         newCoordinates = currentPiece.rotateLeft();
         if (check(newCoordinates)) {
             currentPiece.setCoords(newCoordinates);
@@ -128,11 +131,44 @@ public class Board {
         } 
     }
     
+    // metodi lyhemmäksi myöhemmin
+    void clearLines() {
+        for (int i = 20; i > 0; i--) {
+            int amount = Collections.frequency(placed,i);
+            if (amount == widthSquares) { 
+                System.out.println(i);
+                // palojen poistaminen kentältä
+                for (int j = 0; j < placed.size(); j++) {
+                    if (placed.get(j) == i) {
+                        pane.getChildren().remove(j);
+                        placed.remove(j);
+                        j--;
+                    }
+                }
+                // rivin yläpuolella olevien rivien alaspäin tuominen
+                for (int h = 0; h < placed.size(); h++) {
+                    if (placed.get(h) < i) {
+                        pane.getChildren().get(h).setTranslateY(pane.getChildren().get(h).getTranslateY()+squareWidth);
+                        placed.set(h,placed.get(h)+1);
+                    }
+                }
+                 for (int y = i; y > 0; y--) {
+                    for (int x = 0; x < widthSquares; x++) {
+                        spots[x][y] = spots[x][y-1];
+                    }
+                }
+                i++;
+            }
+        }
+    }
+    
     void place() {
         for (int i = 0; i < 4; i++) {
-            placedPieces.put(rectangle[i],((int)rectangle[i].getY()/squareWidth));
-            spots[currentPiece.getCoords()[i][0]][currentPiece.getCoords()[i][1]] = 1;
+            placed.add((int)rectangle[i].getY()/squareWidth);
+            spots[currentPiece.getCoords()[i][0]+currentX][currentPiece.getCoords()[i][1]+currentY] = 1;
         }
+        clearLines();
+        newPiece();
     }
     
     
@@ -145,7 +181,8 @@ public class Board {
             squares++;
         }
         movePieceDown(squares);
-        
+        place();
     }
     
 }
+    

@@ -5,6 +5,7 @@ import java.util.Random;
 
 
 public class Tetramino {
+
     
     // Palikoiden nimet	
     enum piece {
@@ -19,9 +20,9 @@ public class Tetramino {
         {{1, -1}, {0, -1}, {0, 0}, {0, 1}}, // LPiece
         {{-1, -1}, {0, -1}, {0, 0}, {0, 1}}, // MirrorLPiece		
         {{-1, 0}, {0, 0}, {1, 0}, {0, -1}}, // TPiece		
-        {{0, -1}, {0, 0}, {0, 1}, {0, 2}}// IPiece
+        {{0, -2}, {0, -1}, {0, 0}, {0, 1}}// IPiece
     };
-    
+    piece current;
     private int[][] currentCoords;
     
     public Tetramino() {
@@ -33,6 +34,7 @@ public class Tetramino {
         for (int i = 0; i < 4; i++) {
             System.arraycopy(pieces[piece.ordinal()], 0, currentCoords, 0, 4);
         }
+        current = piece;
     }
     
     void setRandomShape() {
@@ -41,7 +43,18 @@ public class Tetramino {
     }
     
     int width() {
-        return maxX() - minX() +1 ;
+        return maxX() - minX() + 1 ;
+    }
+    
+    int minY() {
+        int minY = currentCoords[0][1];
+        
+        for (int i = 1; i < 4; i++) {
+            if (currentCoords[i][1] < minY) {
+                minY = currentCoords[i][1];
+            }
+        }
+        return minY;
     }
     
     int maxY() {
@@ -53,7 +66,6 @@ public class Tetramino {
             }
         }
         return maxY;
-        
     }
     
     int maxX() {
@@ -94,5 +106,5 @@ public class Tetramino {
         }
         return newCoords;
     }
-
+    
 }

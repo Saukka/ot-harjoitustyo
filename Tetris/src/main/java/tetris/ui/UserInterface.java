@@ -1,7 +1,8 @@
 
 package tetris.ui;
 
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.control.Label;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
@@ -16,9 +17,15 @@ public class UserInterface extends Application {
         window.setTitle("Tetris");
         
         Button startButton = new Button("Start");
+        startButton.setLayoutX(180);
+        startButton.setLayoutY(140);
+        
+        Label controls = new Label("Controls: \n Rotate left Z \n Hard drop SPACE \n Move piece LEFT, RIGHT");
+        controls.setLayoutX(30);
+        controls.setLayoutY(50);
                 
-        BorderPane setUp = new BorderPane();
-        setUp.setCenter(startButton);
+        Pane setUp = new Pane();
+        setUp.getChildren().addAll(startButton,controls);
         
         Scene scene = new Scene(setUp,400,300);
         
