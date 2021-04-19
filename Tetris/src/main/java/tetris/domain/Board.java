@@ -13,13 +13,12 @@ import java.util.ArrayList;
 
 public class Board {
     
-    final int widthPX = 280;
-    final int heightPX = 560;
-    
+    final int squareWidth = 28;
     int widthSquares = 10;
     int heightSquares = 20;
     
-    int squareWidth = widthPX/widthSquares;
+    int widthPX = squareWidth*widthSquares;
+    int heightPX = squareWidth*heightSquares;
     
     Pane pane = new Pane();
     Scene scene = new Scene(pane,widthPX,heightPX);
@@ -29,19 +28,18 @@ public class Board {
     int currentY;
     
     Rectangle[] rectangle;
-    int[][] spots;
-    int[][] coords;
+    int[][] spots; // Pelialueen ruutujen tila pidetään tässä muuttujassa. Jos kohta xy on täynnä, niin spots[x][y]=1, muuten spots[x][y]=0
     
     int[][] newCoordinates;
     Color[] colors;
-    ArrayList<Integer> placed;
+    ArrayList<Integer> placedYs;  // Lista pitää sisällään asetettujen neliöiden Y-koordinaatti-arvot
     
     public Board() {  
         newCoordinates = new int[4][2];
         rectangle = new Rectangle[4];
         spots = new int[widthSquares][heightSquares];
         colors = new Color[]{Color.WHITE, Color.LIGHTPINK, Color.LIGHTGREEN, Color.LIGHTBLUE, Color.LIGHTSALMON, Color.LIGHTCORAL, Color.VIOLET, Color.GOLD};
-        placed = new ArrayList<>();
+        placedYs = new ArrayList<>();
     }
     
     void newPiece() {
@@ -50,23 +48,27 @@ public class Board {
         
         currentX = widthSquares/2;
         currentY = -currentPiece.minY();
-        
-        /* coords = new int[4][2];
-        
-        for (int i = 0; i < 4; i++) {
-            coords[i][0] = currentPiece.getCoords()[i][0] + currentX;
-            coords[i][1] = currentPiece.getCoords()[i][1] + currentY;
-        } */
+       
         drawPiece();
     }
     
     void drawPiece() {
+        // Jokainen palikka piirretään neljällä pienemmällä neliöllä
         for (int i = 0; i < 4; i++) {
             rectangle[i] = new Rectangle((currentPiece.getCoords()[i][0] + currentX)*squareWidth,(currentPiece.getCoords()[i][1] + currentY)*squareWidth, squareWidth, squareWidth);
             rectangle[i].setFill(colors[currentPiece.current.ordinal()]);
             pane.getChildren().add(rectangle[i]);
         }
     } 
+    
+    void place() {
+        for (int i = 0; i < 4; i++) {
+            placedYs.add((int)rectangle[i].getY()/squareWidth);
+            spots[currentPiece.getCoords()[i][0]+currentX][currentPiece.getCoords()[i][1]+currentY] = 1;
+        }
+        clearLines();
+        newPiece();
+    }
     
     void movePieceLeft() {
         if (currentX+currentPiece.minX() > 0) { 
@@ -96,27 +98,7 @@ public class Board {
         }
         currentY += squares;
     }
-    
-    boolean checkBelow(int y) {
-        for (int i = 0; i < 4; i++) {
-            if (y + currentPiece.maxY() == 19 || spots[currentPiece.getCoords()[i][0]+currentX][currentPiece.getCoords()[i][1]+y+1] == 1) {
-                return false;
-            }
-        }
-        return true;
-    }
-    
-    boolean check(int[][] coordinates) {
-        
-        for (int i = 0; i < 4; i++) {
-            if (coordinates[i][0]+currentX < 0 || coordinates[i][0]+currentX > widthSquares-1 || spots[coordinates[i][0]+currentX][coordinates[i][1]+currentY] == 1 ) {
-                return false;
-            }
-        }
-        return true;
-    }
-    
-    
+
     void rotatePieceLeft() {
         if (currentPiece.current.ordinal() == 1) {
             return;
@@ -131,47 +113,6 @@ public class Board {
         } 
     }
     
-    // metodi lyhemmäksi myöhemmin
-    void clearLines() {
-        for (int i = 20; i > 0; i--) {
-            int amount = Collections.frequency(placed,i);
-            if (amount == widthSquares) { 
-                System.out.println(i);
-                // palojen poistaminen kentältä
-                for (int j = 0; j < placed.size(); j++) {
-                    if (placed.get(j) == i) {
-                        pane.getChildren().remove(j);
-                        placed.remove(j);
-                        j--;
-                    }
-                }
-                // rivin yläpuolella olevien rivien alaspäin tuominen
-                for (int h = 0; h < placed.size(); h++) {
-                    if (placed.get(h) < i) {
-                        pane.getChildren().get(h).setTranslateY(pane.getChildren().get(h).getTranslateY()+squareWidth);
-                        placed.set(h,placed.get(h)+1);
-                    }
-                }
-                 for (int y = i; y > 0; y--) {
-                    for (int x = 0; x < widthSquares; x++) {
-                        spots[x][y] = spots[x][y-1];
-                    }
-                }
-                i++;
-            }
-        }
-    }
-    
-    void place() {
-        for (int i = 0; i < 4; i++) {
-            placed.add((int)rectangle[i].getY()/squareWidth);
-            spots[currentPiece.getCoords()[i][0]+currentX][currentPiece.getCoords()[i][1]+currentY] = 1;
-        }
-        clearLines();
-        newPiece();
-    }
-    
-    
     void hardDrop() {
         int squares = 0;
         int y = currentY;
@@ -184,5 +125,53 @@ public class Board {
         place();
     }
     
-}
+    // metodi mahdollisesti lyhemmäksi myöhemmin
+    void clearLines() {
+        for (int i = 20; i > 0; i--) {
+            int amount = Collections.frequency(placedYs,i);
+            if (amount == widthSquares) { 
+                // palojen poistaminen kentältä
+                for (int j = 0; j < placedYs.size(); j++) {
+                    if (placedYs.get(j) == i) {
+                        pane.getChildren().remove(j);
+                        placedYs.remove(j);
+                        j--;
+                    }
+                }
+                // rivin yläpuolella olevien rivien alaspäin tuominen
+                for (int h = 0; h < placedYs.size(); h++) {
+                    if (placedYs.get(h) < i) {
+                        pane.getChildren().get(h).setTranslateY(pane.getChildren().get(h).getTranslateY()+squareWidth);
+                        placedYs.set(h,placedYs.get(h)+1);
+                    }
+                }
+                 for (int y = i; y > 0; y--) {
+                    for (int x = 0; x < widthSquares; x++) {
+                        spots[x][y] = spots[x][y-1];
+                    }
+                }
+                i++;
+            }
+        }
+    }
     
+    boolean check(int[][] coordinates) {
+        
+        for (int i = 0; i < 4; i++) {
+            if (coordinates[i][0]+currentX < 0 || coordinates[i][0]+currentX > widthSquares-1 || spots[coordinates[i][0]+currentX][coordinates[i][1]+currentY] == 1 ) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    boolean checkBelow(int y) {
+        for (int i = 0; i < 4; i++) {
+            if (y + currentPiece.maxY() == heightSquares-1 || spots[currentPiece.getCoords()[i][0]+currentX][currentPiece.getCoords()[i][1]+y+1] == 1) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+}

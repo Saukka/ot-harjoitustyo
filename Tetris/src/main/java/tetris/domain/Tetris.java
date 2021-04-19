@@ -3,8 +3,6 @@ package tetris.domain;
 
 import javafx.stage.Stage;
 import javafx.animation.AnimationTimer;
-import java.util.Map;
-import java.util.HashMap;
 import javafx.scene.input.KeyCode;
 
 public class Tetris {
@@ -19,9 +17,10 @@ public class Tetris {
         
         board.newPiece();
         
-        
     new AnimationTimer() {
         
+        
+        long clock = 0; 
         @Override
         public void handle(long time) {
             
@@ -38,8 +37,13 @@ public class Tetris {
             if (event.getCode() == KeyCode.SPACE) {
                 board.hardDrop();
             }
-            
             });
+            clock++;
+            if (clock > 30) {
+                board.movePieceDown(1);
+                clock = 0;
+            }
+            
             
         }        
     }.start();

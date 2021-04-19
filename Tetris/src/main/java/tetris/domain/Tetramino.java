@@ -12,6 +12,7 @@ public class Tetramino {
         Empty, Square, SPiece, MirrorSPiece, LPiece, MirrorLPiece, TPiece, IPiece
     }	   
     
+    // Jokainen palikka muodostuu neljästä neliöstä
     int[][][] pieces = new int[][][] {
         {{0, 0}, {0, 0}, {0, 0}, {0, 0}}, // Empty
         {{0, 0}, {1, 0}, {0, 1}, {1, 1}}, // Square
