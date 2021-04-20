@@ -2,7 +2,7 @@
 
 Toteutukseni Tetris-pelistä. 
 
-Rungot pelialueelle ja pelipalikoille ovat valmiit. Sovelluksen ainoa toimivuus tällä hetkellä on pelin aloittaminen start-nappulasta, jolloin peli alkaa ja ensimmäinen pala ilmestyy, mutta ei vielä liiku mihinkään. Testien suorittamisessa syntyi erilaisia ongelmia, nyt sovelluksessa on vain yksi testi, joka toimii NetBeansistä suorittamalla, mutta ei komentoriviltä.
+Peliä pystyy nyt jollain tasolla pelaamaan. Ylhäältä tippuu yksi palikka kerrallaan, ja palikoita voi liikuttaa nuolinäppäimillä vasemmalle ja oikealle, kääntää vasemmalle puolelle painamalla Z-näppäintä, ja tiputtaa painamalla välilyönti-näppäintä. Rivin ollessa täynnä, se sortuu. Peli ei kuitenkaan voi loppua, palikoiden pyörittäminen ei toimi parhaalla tavalla ja palikkaa liikuttaessa oikealle tai vasemmalle sen voi liikuttaa toisen palikan sisään. 
 
 
 ## Dokumentaatio
