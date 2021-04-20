@@ -1,1 +1,7 @@
-Tetris/domain/Tetris$1.class
+tetris/domain/Board.class
+tetris/domain/Tetris.class
+tetris/domain/Tetris$1.class
+tetris/ui/UserInterface.class
+tetris/domain/Tetramino$piece.class
+tetris/domain/Tetramino.class
+tetris/ui/Main.class
