@@ -25,12 +25,6 @@ public class TetrisTest {
     }
     
     @Test
-    public void tetraminoIsOnBoard() {
-        tetramino.setRandomShape();
-        assertTrue(tetramino.minY()>0);
-    }
-    
-    @Test
     public void droppedPieceAddedToList() {
         board.pane.setPrefSize(board.widthPX, board.heightPX);
         board.newPiece();
