@@ -11,3 +11,4 @@ Rungot pelialueelle ja pelipalikoille ovat valmiit. Sovelluksen ainoa toimivuus 
 
 [Työaikakirjanpito](https://github.com/Saukka/ot-harjoitustyo/blob/master/dokumentaatio/työaikakirjanpito.md) 
 
+[Arkkitehtuurikuvaus](https://github.com/Saukka/ot-harjoitustyo/blob/master/dokumentaatio/arkkitehtuuri.md)
