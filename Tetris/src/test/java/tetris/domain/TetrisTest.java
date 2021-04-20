@@ -16,16 +16,27 @@ public class TetrisTest {
     }
     
    Tetramino tetramino;
+   Board board;
     
     @Before
     public void setUp() {
         tetramino = new Tetramino();
+        board = new Board();
     }
     
     @Test
     public void tetraminoIsOnBoard() {
         tetramino.setRandomShape();
-        assertTrue(tetramino.maxY()>0);
+        assertTrue(tetramino.minY()>0);
+    }
+    
+    @Test
+    public void droppedPieceAddedToList() {
+        board.pane.setPrefSize(board.widthPX, board.heightPX);
+        board.newPiece();
+        board.hardDrop();
+        assertEquals(board.placedYs.size(), 4);
+        // jokainen palikka on neljä neliötä, ja jokaisen neliön y-koordinaatti lisätään listaan palikan asettuessa
     }
     
     
