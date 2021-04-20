@@ -20,8 +20,8 @@ public class Board {
     int widthPX = squareWidth*widthSquares;
     int heightPX = squareWidth*heightSquares;
     
-    Pane pane = new Pane();
-    Scene scene = new Scene(pane,widthPX,heightPX);
+    Pane pane;
+    Scene scene;
     
     Tetramino currentPiece;
     int currentX;
@@ -34,7 +34,10 @@ public class Board {
     Color[] colors;
     ArrayList<Integer> placedYs;  // Lista pitää sisällään asetettujen neliöiden Y-koordinaatti-arvot
     
-    public Board() {  
+    public Board() { 
+        pane = new Pane();
+        pane.setPrefSize(widthPX, heightPX);
+        scene = new Scene(pane, widthPX, heightPX);
         newCoordinates = new int[4][2];
         rectangle = new Rectangle[4];
         spots = new int[widthSquares][heightSquares];
@@ -125,7 +128,7 @@ public class Board {
         place();
     }
     
-    // metodi mahdollisesti lyhemmäksi myöhemmin
+    // metodi lyhemmäksi myöhemmin sisältämällä listaan myös asetettujen palikoiden x-koordinaatit
     void clearLines() {
         for (int i = 20; i > 0; i--) {
             int amount = Collections.frequency(placedYs,i);

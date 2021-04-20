@@ -10,7 +10,6 @@ public class Tetris {
     public void start(Stage window) {
         
         Board board = new Board();
-        board.pane.setPrefSize(board.widthPX, board.heightPX);
         
         window.setScene(board.scene);
         window.show();
@@ -39,7 +38,7 @@ public class Tetris {
             }
             });
             clock++;
-            if (clock > 30) {
+            if (clock > 40) {
                 board.movePieceDown(1);
                 clock = 0;
             }
