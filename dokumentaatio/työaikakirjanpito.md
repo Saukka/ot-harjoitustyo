@@ -14,4 +14,6 @@
 
 19.4 Parempi suunnittelu pelialueen koordinaatistolle, palikan hard-droppaaminen, rivien sorruttaminen 9h
 
-yhteensä: 31h
+20.4 Checkstyle ja testaukset 4h
+
+yhteensä: 35h
