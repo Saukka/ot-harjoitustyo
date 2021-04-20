@@ -103,7 +103,7 @@ public class Tetramino {
         int[][] newCoords = new int[4][2];
         for (int i = 0; i < 4; i++) {
             newCoords[i][0] = currentCoords[i][1];
-            newCoords[i][1] = -currentCoords[i][0];
+            newCoords[i][1] = - currentCoords[i][0];
         }
         return newCoords;
     }
