@@ -6,11 +6,11 @@ Sovelluksen avulla käyttäjä voi pelata perinteistä Tetris-peliä ja halutess
 
 ## Perusversion toiminnallisuus.
 
-- Sovelluksella on käyttöliittymä, jossa voi valita pelin asetukset ennen pelin aloittamista. 
+- Sovelluksella on käyttöliittymä, jossa voi valita pelin asetukset ennen pelin aloittamista. (1/2 tehty) 
 
 - Asetuksia ovat ainakin käytettävät näppäimet, pelitilan leveys ja pelitilan pituus. 
 
-- Pelillä on tyypilliset Tetriksen ominaisuudet, eli ylhäältä tippuu yksi kerrallaan palikoita, joita pelaaja voi siirtää ja pyörittää, sekä soft ja hard dropata. Peli alkaa tasolta 1; mitä suurempi taso, sitä nopeammin palikat putoavat.  
+- Pelillä on tyypilliset Tetriksen ominaisuudet, eli ylhäältä tippuu yksi kerrallaan palikoita, joita pelaaja voi siirtää ja pyörittää, sekä soft ja hard dropata. Peli alkaa tasolta 1; mitä suurempi taso, sitä nopeammin palikat putoavat. (1/2 tehty)  
 
 - Pisteitä saa sorruttamalla rivejä sekä soft ja hard droppaamalla. Rivi sortuu, kun vaakasuunnassa jokainen ruutu on palikan täyttämä, jolloin rivi poistuu ja rivin yläpuolella olevat rivit putoavat alaspäin. Taso kasvaa, kun tietty määrä rivejä on sorrutettu.
 
