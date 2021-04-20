@@ -2,7 +2,7 @@
 
 Toteutukseni Tetris-pelistä. 
 
-Peliä pystyy nyt jollain tasolla pelaamaan. Ylhäältä tippuu yksi palikka kerrallaan, ja palikoita voi liikuttaa nuolinäppäimillä vasemmalle ja oikealle, kääntää vasemmalle puolelle painamalla Z-näppäintä, ja tiputtaa painamalla välilyönti-näppäintä. Rivin ollessa täynnä, se sortuu. Peli ei kuitenkaan voi loppua, palikoiden pyörittäminen ei toimi parhaalla tavalla ja palikkaa liikuttaessa oikealle tai vasemmalle sen voi liikuttaa toisen palikan sisään. 
+Peliä pystyy nyt jollain tasolla pelaamaan. Ylhäältä tippuu yksi palikka kerrallaan, ja palikoita voi liikuttaa nuolinäppäimillä vasemmalle ja oikealle, kääntää vasemmalle puolelle Z-näppäimellä, ja tiputtaa välilyönti-näppäimellä. Rivin ollessa täynnä, se sortuu. Peli ei kuitenkaan voi loppua, palikoiden pyörittäminen ei toimi parhaalla tavalla ja palikkaa liikuttaessa oikealle tai vasemmalle sen voi liikuttaa toisen palikan sisään. 
 
 
 ## Dokumentaatio
