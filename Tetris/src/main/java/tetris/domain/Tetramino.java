@@ -44,7 +44,7 @@ public class Tetramino {
     }
     
     int width() {
-        return maxX() - minX() + 1 ;
+        return maxX() - minX() + 1;
     }
     
     int minY() {
