@@ -16,4 +16,8 @@
 
 20.4 Checkstyle ja testaukset 4h
 
+24.4 Pelialueelle väritys 5h
+
+25.5 Pelin mukavuuden parantamista, pelialueelle pisteet ja level
+
 yhteensä: 35h
