@@ -2,7 +2,7 @@
 
 Toteutukseni Tetris-pelistä. 
 
-Peliä pystyy nyt jollain tasolla pelaamaan. Ylhäältä tippuu yksi palikka kerrallaan, ja palikoita voi liikuttaa nuolinäppäimillä vasemmalle ja oikealle, kääntää vasemmalle puolelle Z-näppäimellä, ja tiputtaa välilyönti-näppäimellä. Rivin ollessa täynnä, se sortuu. Peli ei kuitenkaan voi loppua, palikoiden pyörittäminen ei toimi parhaalla tavalla ja palikkaa liikuttaessa oikealle tai vasemmalle sen voi liikuttaa toisen palikan sisään. 
+Sovelluksen avulla voi pelata klassisen tyyppistä Tetristä. Ylhäältä tippuu vuorollaan palikoita, mitä korkeampi taso, sitä nopeammin. Palikoita voi liikuttaa vasemmalle ja oikealle pelialueen sisällä, sekä kääntää (tällä hetkellä vain vasemmalle). Palikan voi myös tiputtaa alas suoraan. Tavoitteena on kerätä mahdollisimman paljon pisteitä. Pisteitä saa sorruttamalla rivejä, eniten sorruttaessa neljä riviä samalla. Peli loppuu, kun palikkaa ei saa asetettua pelialueen sisälle. 
 
 
 ## Dokumentaatio
