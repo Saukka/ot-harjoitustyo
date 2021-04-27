@@ -23,7 +23,7 @@ public class Tetris {
     
     public void start(Stage window) {
         
-        
+        // alusta jossa näkyy seuraava palikka
         Rectangle[] rectangle = new Rectangle[4];
         Rectangle nextBox = new Rectangle(0,56,168,112);
         nextBox.setArcHeight(22);

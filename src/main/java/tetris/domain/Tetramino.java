@@ -57,6 +57,10 @@ public class Tetramino {
         return maxX() - minX() + 1;
     }
     
+    int height() {
+        return maxY() - minY() + 1;
+    }
+    
     int minY() {
         int minY = currentCoords[0][1];
         

@@ -17,8 +17,8 @@ public class UserInterface extends Application {
         window.setTitle("Tetris");
         
         Button startButton = new Button("Start");
-        startButton.setLayoutX(180);
-        startButton.setLayoutY(140);
+        startButton.setLayoutX(275);
+        startButton.setLayoutY(280);
         
         Label controls = new Label("Controls: \n Rotate left Z \n Hard drop SPACE \n Move piece LEFT, RIGHT");
         controls.setLayoutX(30);

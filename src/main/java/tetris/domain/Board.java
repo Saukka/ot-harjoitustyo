@@ -69,10 +69,10 @@ public class Board {
         currentPiece = new Tetramino();
         currentPiece.setCurrentShape(piece.values()[nextPiece]);
         
-        currentX = widthSquares/2;
+        currentX = widthSquares / 2;
         currentY = -1;
        
-        drawPiece((double) currentX, currentY, currentPiece, rectangle, pane);
+        drawPiece(currentX, currentY, currentPiece, rectangle, pane);
         nextPiece = new Random().nextInt(7)+1;
     }
     
@@ -124,11 +124,6 @@ public class Board {
     
     void movePieceDown(int squares) {
         if (squares == 1 && !checkBelow(currentY)) {
-            /* check = false;
-            TimeUnit.SECONDS.sleep(3);
-            if (check) {
-                return;
-            } */
             place();
             return;
         }
@@ -166,7 +161,6 @@ public class Board {
         place();
     }
     
-    // metodi lyhemmäksi myöhemmin sisältämällä listaan myös asetettujen palikoiden x-koordinaatit
     void clearLines() {
         int cleared  = 0;
         for (int i = 19; i > 0; i--) {

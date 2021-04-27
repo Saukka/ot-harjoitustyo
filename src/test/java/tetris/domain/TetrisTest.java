@@ -39,11 +39,11 @@ public class TetrisTest {
     }
     
     @Test
-    public void rotatedIPieceWidthIsFour() {
+    public void rotatedIPieceHeightIsFour() {
         tetramino = new Tetramino();
         tetramino.setCurrentShape(Tetramino.piece.IPiece);
         tetramino.setCoords(tetramino.rotateLeft());
-        assertEquals(4, tetramino.width());
+        assertEquals(4, tetramino.height());
     }
     
     
