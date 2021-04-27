@@ -56,5 +56,13 @@ public class TetrisTest {
         // jokainen palikka on neljä neliötä, ja jokaisen neliön y-koordinaatti lisätään listaan palikan asettuessa
     } 
     
+    @Test
+    public void scoreIncreases() {
+        board = new Board();
+        board.newPiece();
+        board.hardDrop();
+        assertTrue(board.score > 30);
+    }
+    
     
 }
