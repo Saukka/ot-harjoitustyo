@@ -22,8 +22,11 @@ Testikattavuusraportin saa komennolla
 ```
 mvn jacoco:report
 ```
+JavaDocin voi generoida komennolla 
 
-
+```
+mvn javadoc:javadoc
+```
 
 ## Dokumentaatio
 
