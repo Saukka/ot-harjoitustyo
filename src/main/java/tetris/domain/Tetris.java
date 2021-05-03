@@ -21,11 +21,12 @@ import javafx.scene.control.Button;
 import tetris.ui.UserInterface;
 import java.util.Collections;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.ArrayList;
 
 
 public class Tetris {
     
-    public void start(Stage window, KeyCode rotateLeftK, KeyCode rotateRightK, KeyCode holdK, KeyCode hardDropK, KeyCode moveLeftK, KeyCode moveDownK, KeyCode moveRightK) {
+    public void start(Stage window, ArrayList<KeyCode> keys) {
         UserInterface ui = new UserInterface();
         
         Rectangle[] rectangleNext = new Rectangle[4];
@@ -86,12 +87,19 @@ public class Tetris {
         window.setScene(scene);
         window.show();
         
-        board.newPiece(false, board.nextPiece);
-        
         Map<KeyCode, Boolean> movementButtons = new HashMap<>();
         Map<KeyCode, Boolean> otherButtons = new HashMap<>();
         AtomicReference<Boolean> hardDrop = new AtomicReference<>();
         hardDrop.set(false);
+        
+        
+        KeyCode rotateLeftK = keys.get(0);
+        KeyCode rotateRightK = keys.get(1);
+        KeyCode holdK = keys.get(2);
+        KeyCode hardDropK = keys.get(3);
+        KeyCode moveLeftK = keys.get(4);
+        KeyCode moveDownK = keys.get(5);
+        KeyCode moveRightK = keys.get(6);
         
         scene.setOnKeyPressed(event -> {
             KeyCode k = event.getCode();
@@ -113,6 +121,8 @@ public class Tetris {
                 otherButtons.put(event.getCode(), Boolean.FALSE);
             }
         });
+        
+        board.newPiece(false, board.nextPiece);
         
         
         new AnimationTimer() {

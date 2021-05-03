@@ -6,9 +6,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.control.Label;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.Scene;
@@ -104,7 +101,7 @@ public class UserInterface extends Application {
         }
         
         startButton.setOnAction(e-> {
-            tetris.start(window, keys.get(0), keys.get(1), keys.get(2), keys.get(3), keys.get(4), keys.get(5), keys.get(6));
+            tetris.start(window, keys);
         });
         
         window.show();   
