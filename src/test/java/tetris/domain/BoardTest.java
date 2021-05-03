@@ -50,4 +50,21 @@ public class BoardTest {
         board.swapHold();
         assertEquals(holdPiece, board.currentPiece.current.ordinal());
     }
+    
+    @Test
+    public void movingPieceWorks() {
+        board = new Board();
+        board.newPiece(false, board.nextPiece);
+        int xCoordinate = board.currentX;
+        board.movePieceRight();
+        assertFalse(xCoordinate == board.currentX);
+        board.movePieceLeft();
+        assertEquals(xCoordinate, board.currentX);
+        board.movePieceLeft();
+        assertEquals(xCoordinate - 1, board.currentX);
+        int yCoordinate = board.currentY;
+        board.movePieceDown(1, true);
+        board.movePieceDown(1, true);
+        assertEquals(yCoordinate + 2, board.currentY);
+    }
 }
