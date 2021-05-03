@@ -14,12 +14,13 @@ public class TetrisTest {
     public TetrisTest() {
     }
     
-    Tetramino tetramino;
+    Tetromino tetramino;
     Board board;
+    Tetris tetris;
     
     @Test
     public void rotatingChangesCoordinates() {
-        tetramino = new Tetramino();
+        tetramino = new Tetromino();
         tetramino.setRandomShape();
         int[][] coords = tetramino.getCoords();
         int[][] rotatedCoords = tetramino.rotateLeft();
@@ -28,7 +29,7 @@ public class TetrisTest {
     
     @Test
     public void rotatingWorksProperly() {
-        tetramino = new Tetramino();
+        tetramino = new Tetromino();
         tetramino.setRandomShape();
         int[][] coords = tetramino.getCoords();
         tetramino.rotateLeft();
@@ -40,8 +41,8 @@ public class TetrisTest {
     
     @Test
     public void rotatedIPieceHeightIsFour() {
-        tetramino = new Tetramino();
-        tetramino.setCurrentShape(Tetramino.piece.IPiece);
+        tetramino = new Tetromino();
+        tetramino.setCurrentShape(Tetromino.piece.IPiece);
         tetramino.setCoords(tetramino.rotateLeft());
         assertEquals(4, tetramino.height());
     }
@@ -50,18 +51,30 @@ public class TetrisTest {
     @Test
     public void droppedPieceAddedToList() {
         board = new Board();
-        board.newPiece();
+        board.newPiece(false, board.nextPiece);
         board.hardDrop();
-        assertEquals(4,board.placedYs.size());
-        // jokainen palikka on neljä neliötä, ja jokaisen neliön y-koordinaatti lisätään listaan palikan asettuessa
+        assertEquals(4, board.placed.size());
+        // jokainen palikka on neljä neliötä, ja placed listaan tallennetaan neliöt
     } 
     
     @Test
     public void scoreIncreases() {
         board = new Board();
-        board.newPiece();
+        board.newPiece(false, board.nextPiece);
         board.hardDrop();
         assertTrue(board.score > 30);
+    }
+    
+    @Test
+    public void holdPieceWorks() {
+        board = new Board();
+        board.newPiece(false, board.nextPiece);
+        board.swapHold();
+        int holdPiece = board.holdPiece;
+        board.hardDrop();
+        board.swapHold();
+        assertEquals(holdPiece, board.currentPiece.current.ordinal());
+        
     }
     
     

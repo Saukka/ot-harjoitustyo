@@ -5,14 +5,12 @@ package tetris.domain;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
-import java.util.Collections;
 import java.util.ArrayList;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
-import java.util.Random;
-import tetris.domain.Tetramino.piece;
+import tetris.domain.Tetromino.piece;
 
 
 public class Board {
@@ -28,16 +26,21 @@ public class Board {
     
     Pane pane;
     
-    Tetramino currentPiece;
+    Tetromino currentPiece;
     int currentX;
     int currentY;
+    Rectangle[] pieceSquare;
     
-    Rectangle[] rectangle;
+    Tetromino ghostPiece;
+    Rectangle[] ghostSquare;
+    
     int[][] spots; // Pelialueen ruutujen tila pidetään tässä muuttujassa. Jos kohta xy on täynnä, niin spots[x][y]=1, muuten spots[x][y]=0
     
     int[][] newCoordinates;
-    Color[] colors;
-    ArrayList<Integer> placedYs;
+    
+    // Lista pitää sisällään asetettujen neliöiden tiedot
+    ArrayList<PlacedRectangle> placed;
+    
     int score;
     int level;
     int lines;
@@ -45,19 +48,39 @@ public class Board {
     boolean check;
     
     int nextPiece;
-    // Lista pitää sisällään asetettujen neliöiden Y-koordinaatti-arvot
+    int holdPiece;
+    boolean canSwapHold;
     
     public Board() { 
         pane = new Pane();
         pane.setPrefSize(widthPX, heightPX);
-        pane.setBackground(new Background(new BackgroundFill(Color.BLACK,CornerRadii.EMPTY, Insets.EMPTY)));
+        pane.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
         newCoordinates = new int[4][2];
-        rectangle = new Rectangle[4];
-        spots = new int[widthSquares][heightSquares];
-        colors = new Color[]{Color.WHITE, Color.web("0xF6FFFF"), Color.web("0x48F62D"), Color.web("0x3752FF"), Color.web("0x48F62D"), Color.web("0x3752FF"), Color.web("0xF6FFFF"), Color.web("0xF6FFFF")};
-        placedYs = new ArrayList<>();
+        pieceSquare = new Rectangle[4];
+        spots = new int[widthSquares + 8][heightSquares + 6];
+        placed = new ArrayList<>();
         
-        nextPiece = new Random().nextInt(7)+1;
+        for (int x = 0; x < 18; x++) {
+            for (int y = 25; y > -1; y--) {
+                if (x < 4 || x > 13 || y > 23) {
+                    spots[x][y] = 1;
+                }
+            }
+        }
+        
+        currentPiece = new Tetromino();
+        nextPiece = currentPiece.getNextPiece();
+        
+        ghostPiece = new Tetromino();
+        ghostSquare = new Rectangle[4];
+        
+        for (int i = 0; i < 4; i++) {
+            ghostSquare[i] = new Rectangle(0, -200, squareWidth, squareWidth);
+            pane.getChildren().add(ghostSquare[i]);
+        }
+        
+        holdPiece = 0;
+        canSwapHold = true;
         
         score = 0;
         level = 1;
@@ -65,86 +88,119 @@ public class Board {
         end = false;
     }
     
-    void newPiece() {
-        currentPiece = new Tetramino();
-        currentPiece.setCurrentShape(piece.values()[nextPiece]);
+    void newPiece(boolean hold, int pieceValue) {
         
-        currentX = widthSquares / 2;
-        currentY = -1;
-       
-        drawPiece(currentX, currentY, currentPiece, rectangle, pane);
-        nextPiece = new Random().nextInt(7)+1;
+        currentPiece.setCurrentShape(piece.values()[pieceValue]);
+        
+        currentX = widthSquares / 2 + 4;
+        currentY = -1 + 4;
+        drawPiece(currentX - 4, currentY - 4, currentPiece, pieceSquare, pane);
+        updateGhost();
+        if (hold) {
+            return;
+        }
+        nextPiece = currentPiece.getNextPiece();
     }
     
-    void drawPiece(double x, double y, Tetramino piece, Rectangle[] rectangle, Pane pane) {
+    void drawPiece(double x, double y, Tetromino piece, Rectangle[] rectangle, Pane pane) {
         // Jokainen palikka piirretään neljällä pienemmällä neliöllä
         for (int i = 0; i < 4; i++) {
             rectangle[i] = new Rectangle((piece.getCoords()[i][0] + x) * squareWidth, (piece.getCoords()[i][1] + y) * squareWidth, squareWidth, squareWidth);
-            rectangle[i].setFill(piece.getColor(level));
-            rectangle[i].setStroke(Color.web("0x29C343"));
+            rectangle[i].setFill(piece.getColor(level, piece.current.ordinal()));
+            rectangle[i].setStroke(piece.getColor(level, 0));
             pane.getChildren().add(rectangle[i]);
         }
     }
     
-    
-    
     void place() {
+        boolean endGame = true;
         for (int i = 0; i < 4; i++) {
-            if (currentPiece.getCoords()[i][1] + currentY < 0) {
-                end = true;
-                return;
-            }
-            placedYs.add((int)rectangle[i].getY() / squareWidth);
+            placed.add(new PlacedRectangle(currentPiece.getCoords()[i][0] + currentX, (int) pieceSquare[i].getY() / squareWidth + 4, currentPiece.current.ordinal(), pieceSquare[i]));
             spots[currentPiece.getCoords()[i][0] + currentX][currentPiece.getCoords()[i][1] + currentY] = 1;
+            if (currentPiece.getCoords()[i][1] + currentY > 4) {
+                endGame = false;
+            }
+            
         }
+        end = endGame;
+        canSwapHold = true;
         clearLines();
-        newPiece();
+        newPiece(false, nextPiece);
     }
     
+    void reColorPlaced() {
+        for (int i = 0; i < placed.size(); i++) {
+            placed.get(i).reColor(level);
+        }
+    }
     
     void movePieceLeft() {
         if (checkVertical(-1)) { 
             for (int i = 0; i < 4; i++) {
-                rectangle[i].setX(rectangle[i].getX() - squareWidth);
+                pieceSquare[i].setX(pieceSquare[i].getX() - squareWidth);
             }
             currentX--;
-            check = true;
+            updateGhost();
         }
     }
     void movePieceRight() {
         if (checkVertical(1)) {
-            for (int i = 0; i<4; i++) {
-                rectangle[i].setX(rectangle[i].getX()+squareWidth);
+            for (int i = 0; i < 4; i++) {
+                pieceSquare[i].setX(pieceSquare[i].getX() + squareWidth);
             }
-            check = true;
             currentX++;
+            updateGhost();
         }
     }
     
-    
-    void movePieceDown(int squares) {
+    void movePieceDown(int squares, boolean softDrop) {
         if (squares == 1 && !checkBelow(currentY)) {
             place();
             return;
         }
         for (int i = 0; i < 4; i++) {
-            rectangle[i].setY(rectangle[i].getY()+squareWidth*squares);
+            pieceSquare[i].setY(pieceSquare[i].getY() + squareWidth * squares);
         }
         currentY += squares;
+        if (softDrop) {
+            score++;
+        }
     }
 
-    void rotatePieceLeft() {
+    // r = 1 jos käännetään oikealle
+    void rotatePiece(int r) {
         if (currentPiece.current.ordinal() == 1) {
             return;
         }
-        newCoordinates = currentPiece.rotateLeft();
-        if (checkRotate(newCoordinates)) {
+        if (r == 1) {
+            newCoordinates = currentPiece.rotateRight();
+        } else {
+            newCoordinates = currentPiece.rotateLeft();
+        }
+        
+        int rotateHeight = checkRotate(newCoordinates);
+        if (rotateHeight != -1) {
             currentPiece.setCoords(newCoordinates);
+            currentY -= rotateHeight;
             for (int i = 0; i < 4; i++) {
-                rectangle[i].setX((currentX+newCoordinates[i][0])*squareWidth);
-                rectangle[i].setY((currentY+newCoordinates[i][1])*squareWidth);
+                pieceSquare[i].setX((currentX - 4 + newCoordinates[i][0]) * squareWidth);
+                pieceSquare[i].setY((currentY - 4 + newCoordinates[i][1]) * squareWidth);
             }
+            updateGhost();
         } 
+    }
+    
+    void updateGhost() {
+        int y = currentY;
+        while (checkBelow(y)) {
+            y++;
+        }
+        for (int i = 0; i < 4; i++) {
+            ghostSquare[i].setFill(currentPiece.getColor(level, currentPiece.current.ordinal()));
+            ghostSquare[i].setOpacity(0.35);
+            ghostSquare[i].setX((currentX - 4 + currentPiece.getCoords()[i][0]) * squareWidth);
+            ghostSquare[i].setY((y - 4 + currentPiece.getCoords()[i][1]) * squareWidth);
+        }
     }
     
     void hardDrop()  {
@@ -156,40 +212,62 @@ public class Board {
             y++;
             squares++;
         }
-        movePieceDown(squares);
+        movePieceDown(squares, false);
         score += squares * 2;
         place();
     }
     
+    void swapHold() {
+        if (holdPiece == 0) {
+            holdPiece = currentPiece.current.ordinal();
+            newPiece(false, nextPiece);
+            pane.getChildren().remove(placed.size() + 4, placed.size() + 8);
+            canSwapHold = false;
+        } else {
+            pane.getChildren().remove(placed.size() + 4, placed.size() + 8);
+            int pieceBefore = currentPiece.current.ordinal();
+            newPiece(true, holdPiece);
+            holdPiece = pieceBefore;
+            canSwapHold = false;
+        }
+        
+    }
+    
     void clearLines() {
         int cleared  = 0;
-        for (int i = 19; i > 0; i--) {
-            int amount = Collections.frequency(placedYs,i);
+        for (int i = 23; i > 3; i--) {
+            int amount = 0;
+            for (PlacedRectangle square : placed) {
+                if (square.y == i) {
+                    amount++;
+                } 
+            }
             if (amount == widthSquares) { 
                 cleared++;
                 // palojen poistaminen kentältä
-                for (int j = 0; j < placedYs.size(); j++) {
-                    if (placedYs.get(j) == i) {
-                        pane.getChildren().remove(j);
-                        placedYs.remove(j);
+                for (int j = 0; j < placed.size(); j++) {
+                    if (placed.get(j).getY() == i) {
+                        pane.getChildren().remove(j + 4);
+                        placed.remove(j);
                         j--;
                     }
                 }
                 // rivin yläpuolella olevien rivien alaspäin tuominen
-                for (int h = 0; h < placedYs.size(); h++) {
-                    if (placedYs.get(h) < i) {
-                        pane.getChildren().get(h).setTranslateY(pane.getChildren().get(h).getTranslateY() + squareWidth);
-                        placedYs.set(h, placedYs.get(h)+1);
+                for (int h = 0; h < placed.size(); h++) {
+                    if (placed.get(h).getY() < i) {
+                        pane.getChildren().get(h + 4).setTranslateY(pane.getChildren().get(h + 4).getTranslateY() + squareWidth);
+                        placed.get(h).setY(placed.get(h).getY() + 1);
                     }
                 }
-                 for (int y = i; y > 0; y--) {
-                    for (int x = 0; x < widthSquares; x++) {
-                        spots[x][y] = spots[x][y-1];
+                for (int y = i; y > 3; y--) {
+                    for (int x = 4; x < widthSquares + 4; x++) {
+                        spots[x][y] = spots[x][y - 1];
                     }
                 }
                 i++;
             }
         }
+        
         lines += cleared;
         switch (cleared) {
             case 0:
@@ -208,32 +286,35 @@ public class Board {
                 break;
         }
         if (lines >= level * 8) {
-            System.out.println(lines);
             level++;
+            reColorPlaced();
         } 
     }
     
-    
-    
-    boolean checkRotate(int[][] coordinates) {
+    int checkRotate(int[][] coordinates) {
+        int answer = 0;
         for (int i = 0; i < 4; i++) {
-            if (coordinates[i][0] + currentX >= 0 && coordinates[i][0] + currentX < widthSquares && coordinates[i][1] + currentY < 0) {
-                continue;
-            }
-            if (coordinates[i][0] + currentX < 0 || coordinates[i][0] + currentX > widthSquares - 1 || coordinates[i][1]+currentY < 0 || coordinates[i][1]+currentY > 19 || spots[coordinates[i][0]+currentX][coordinates[i][1]+currentY] == 1 ) {
-                return false;
+            if (spots[coordinates[i][0] + currentX][coordinates[i][1] + currentY] == 1) {
+                answer = -1;
             }
         }
-        return true;
+        if (answer == 0) {
+            return answer;
+        }
+        // jos palikkaa ei saanut käännettyä, koitetaan se kääntää yhdelle korkeammalle riville
+        answer = 1;
+        for (int i = 0; i < 4; i++) {
+            if (spots[coordinates[i][0] + currentX][coordinates[i][1] + currentY - 1] == 1) {
+                answer = -1;
+            }
+        }
+        return answer;
     }
     
     // move = -1 kun tarkastetaan vasemmalle liikkuminen ja 1 kun oikealle.
     boolean checkVertical(int move) {
-        for (int i = 0; i < 4 ; i++) {
-            if (currentPiece.getCoords()[i][0] + currentX + move >= 0 && currentPiece.getCoords()[i][0] + currentX + move < widthSquares && currentPiece.getCoords()[i][1] + currentY < 0) {
-                continue;
-            }
-            if (currentPiece.getCoords()[i][0] + currentX + move < 0 || currentPiece.getCoords()[i][0] + currentX + move > widthSquares - 1 || spots[currentPiece.getCoords()[i][0] + currentX + move][currentPiece.getCoords()[i][1] + currentY] == 1 ) {
+        for (int i = 0; i < 4; i++) {
+            if (spots[currentPiece.getCoords()[i][0] + currentX + move][currentPiece.getCoords()[i][1] + currentY] == 1) {
                 return false;
             }
         }
@@ -242,10 +323,7 @@ public class Board {
     
     boolean checkBelow(int y) {
         for (int i = 0; i < 4; i++) {
-            if (currentPiece.getCoords()[i][0] + currentX >= 0 && currentPiece.getCoords()[i][0] + currentX < widthSquares && currentPiece.getCoords()[i][1] + y < 0) {
-                continue;
-            }
-            if (y + currentPiece.maxY() == heightSquares - 1 || spots[currentPiece.getCoords()[i][0] + currentX][currentPiece.getCoords()[i][1] + y + 1] == 1) {
+            if (spots[currentPiece.getCoords()[i][0] + currentX][currentPiece.getCoords()[i][1] + y + 1] == 1) {
                 return false;
             }
         }

@@ -1,8 +1,8 @@
 
 package tetris.domain;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.HashMap;
+import java.util.Map;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.animation.AnimationTimer;
@@ -17,15 +17,22 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.control.Button;
+import tetris.ui.UserInterface;
+import java.util.Collections;
+import java.util.concurrent.atomic.AtomicReference;
 
 
 public class Tetris {
     
-    public void start(Stage window) {
+    public void start(Stage window, KeyCode rotateLeftK, KeyCode rotateRightK, KeyCode holdK, KeyCode hardDropK, KeyCode moveLeftK, KeyCode moveDownK, KeyCode moveRightK) {
+        UserInterface ui = new UserInterface();
+        
+        Rectangle[] rectangleNext = new Rectangle[4];
+        Rectangle[] rectangleHold = new Rectangle[4];
         
         // alusta jossa näkyy seuraava palikka
-        Rectangle[] rectangle = new Rectangle[4];
-        Rectangle nextBox = new Rectangle(0,56,168,112);
+        Rectangle nextBox = new Rectangle(0, 56, 168, 112);
         nextBox.setArcHeight(22);
         nextBox.setArcWidth(22);
         nextBox.setFill(Color.web("0x3D3D3D"));
@@ -37,8 +44,13 @@ public class Tetris {
         Pane left = new Pane();
         left.setPrefSize(210, 560);
         
+        Rectangle holdBox = new Rectangle(20, 56, 168, 112);
+        holdBox.setArcHeight(22);
+        holdBox.setArcWidth(22);
+        left.getChildren().add(holdBox);
+        
         Board board = new Board();
-        Text score = new Text ("SCORE: " + board.score);
+        Text score = new Text("SCORE: " + board.score);
         Text lines = new Text("LINES: " + board.lines);
         Text level = new Text("LEVEL: " + board.level);
         
@@ -54,14 +66,17 @@ public class Tetris {
         left.getChildren().add(score);
         left.getChildren().add(lines);
         left.getChildren().add(level);
-        Tetramino piece = new Tetramino();
-        piece.setCurrentShape(Tetramino.piece.values()[board.nextPiece]);
-        board.drawPiece(3 - piece.minX() - ((double) piece.width() / 2) , 4, piece, rectangle, right);
         
+        Tetromino next = new Tetromino();
+        next.setCurrentShape(Tetromino.piece.values()[board.nextPiece]);
+        board.drawPiece(3 - next.minX() - ((double) next.width() / 2) , 4, next, rectangleNext, right);
+        
+        Tetromino hold = new Tetromino();
+        hold.setCurrentShape(Tetromino.piece.values()[board.holdPiece]);
         
         board.pane.setPrefSize(board.widthPX, board.heightPX);
         BorderPane view = new BorderPane();
-        view.setBackground(new Background(new BackgroundFill(Color.web("0x8A2EA6"),CornerRadii.EMPTY, Insets.EMPTY)));
+        view.setBackground(new Background(new BackgroundFill(Color.web("0x8A2EA6"), CornerRadii.EMPTY, Insets.EMPTY)));
         view.setCenter(board.pane);
         view.setLeft(left);
         view.setRight(right);
@@ -71,57 +86,201 @@ public class Tetris {
         window.setScene(scene);
         window.show();
         
-        board.newPiece();
+        board.newPiece(false, board.nextPiece);
         
+        Map<KeyCode, Boolean> movementButtons = new HashMap<>();
+        Map<KeyCode, Boolean> otherButtons = new HashMap<>();
+        AtomicReference<Boolean> hardDrop = new AtomicReference<>();
+        hardDrop.set(false);
         
-    new AnimationTimer() {
-        
-        
-        float clock = 0; 
-        @Override
-        public void handle(long time) {
-            
-            if (board.nextPiece != board.currentPiece.current.ordinal()) {
-                right.getChildren().remove(1,5);
-                piece.setCurrentShape(Tetramino.piece.values()[board.nextPiece]);
-                board.drawPiece(3 - piece.minX() - ((double) piece.width() / 2) , 4, piece, rectangle, right);
+        scene.setOnKeyPressed(event -> {
+            KeyCode k = event.getCode();
+            if (k == moveLeftK || k == moveDownK || k == moveRightK) {
+                movementButtons.put(event.getCode(), Boolean.TRUE);
+            } else if (k == hardDropK) {
+                hardDrop.set(true);
+            } else {
+                otherButtons.put(event.getCode(), Boolean.TRUE);
             }
+        });
+        scene.setOnKeyReleased(event -> {
+            KeyCode c = event.getCode();
+            if (c == moveLeftK || c == moveDownK || c == moveRightK) {
+                movementButtons.put(event.getCode(), Boolean.FALSE);
+            } else if (c == hardDropK) {
+                hardDrop.set(false);
+            } else {
+                otherButtons.put(event.getCode(), Boolean.FALSE);
+            }
+        });
+        
+        
+        new AnimationTimer() {
+
+            float clock = 0;
             
-            scene.setOnKeyPressed(event -> {
-                if (event.getCode() == KeyCode.LEFT) {
-                    board.movePieceLeft();
+            
+            // seuraavien muuttujien avulla katsotaan, pidetäänkö näppäintä pohjassa
+            int accelerationClock = 0;
+            int accelerationTimes = 2;
+            boolean accelerationLeft = false;
+            boolean accelerationRight = false;
+            boolean accelerationOther = false;
+            boolean accelerationDrop = false;
+            
+            // seuraavien muuttujien avulla pelaajalle annetaan hieman aikaa liikuttaa palikkaa kun palikan alla ei ole tilaa
+            boolean place = false;
+            float extraTimeClock = 0;
+            boolean timeStarted = false;
+            int times = 4;
+            
+
+            @Override
+            public void handle(long time) {
+
+                if (Collections.frequency(movementButtons.values(), true) == 0) {
+                    accelerationClock = 0;
+                    accelerationTimes = 4;
                 } 
-                if (event.getCode() == KeyCode.RIGHT) {
-                    board.movePieceRight();
+                
+                if (Collections.frequency(otherButtons.values(), true) == 0) {
+                    accelerationOther = false;
                 }
-                if (event.getCode() == KeyCode.Z) {
-                    board.rotatePieceLeft();
+                
+                if (movementButtons.getOrDefault(moveLeftK, false)) {
+                    accelerationClock++;
+                    if (!accelerationLeft) {
+                        board.movePieceLeft();
+                        extraTimeClock -= times * 5;
+                        times--;
+                        accelerationLeft = true;
+                    }
+                    if (accelerationClock > accelerationTimes * 3) {
+                        accelerationTimes++;
+                        board.movePieceLeft();
+                        extraTimeClock -= times * 5;
+                        times--;
+                    } 
+                } else {
+                    accelerationLeft = false;
                 }
-                if (event.getCode() == KeyCode.SPACE) {
-                    board.hardDrop();
+                
+                if (movementButtons.getOrDefault(moveRightK, false)) {
+                    accelerationClock++;
+                    if (!accelerationRight) {
+                        board.movePieceRight();
+                        extraTimeClock -= times * 5;
+                        times--;
+                        accelerationRight = true;
+                    }
+                    if (accelerationClock > accelerationTimes * 3) {
+                        accelerationTimes++;
+                        board.movePieceRight();
+                        extraTimeClock -= times * 5;
+                        times--;
+                    }
+                } else {
+                    accelerationRight = false;
                 }
-            });
-            
-            if (board.end) {
-                stop();
+                
+                if (movementButtons.getOrDefault(moveDownK, false)) {
+                    accelerationClock++;
+                    
+                    if (accelerationClock > accelerationTimes * 2) {
+                        accelerationTimes++;
+                        movePieceDown(true);
+                    }   
+                } 
+                
+                if ((otherButtons.getOrDefault(rotateLeftK, false)) && !accelerationOther) {
+                    board.rotatePiece(0);
+                    extraTimeClock -= times * 5;
+                    times--;
+                    accelerationOther = true;
+                }
+                if ((otherButtons.getOrDefault(rotateRightK, false)) && !accelerationOther) {
+                    board.rotatePiece(1);
+                    extraTimeClock -= times * 5;
+                    times--;
+                    accelerationOther = true;
+                }
+                
+                if (hardDrop.get() == true && !accelerationDrop) {
+                        board.hardDrop();
+                        accelerationDrop = true;
+                } 
+                if (hardDrop.get() == false) {
+                    accelerationDrop = false;
+                }
+                    
+                if ((otherButtons.getOrDefault(holdK, false)) && !accelerationOther) {
+                    accelerationOther = true;
+                    if (board.holdPiece == 0) {
+                        board.swapHold();
+                        hold.setCurrentShape(Tetromino.piece.values()[board.holdPiece]);
+                        board.drawPiece(3.5, 3.5, hold, rectangleHold, left);
+                    } else if (board.canSwapHold) {
+                        board.swapHold();
+                        left.getChildren().remove(4, 8);
+                        hold.setCurrentShape(Tetromino.piece.values()[board.holdPiece]);
+                        board.drawPiece(3.5, 3.5, hold, rectangleHold, left);
+                    }
+                }
+                
+                if (board.nextPiece != board.currentPiece.current.ordinal()) {
+                    right.getChildren().remove(1, 5);
+                    next.setCurrentShape(Tetromino.piece.values()[board.nextPiece]);
+                    board.drawPiece(3 - next.minX() - ((double) next.width() / 2) , 4, next, rectangleNext, right);
+                }
+
+                if (board.end) {
+                    Button menu = new Button("Main menu");
+                    menu.setFocusTraversable(false);
+                    menu.setLayoutX(45);
+                    menu.setLayoutY(465);
+                    left.getChildren().add(menu);
+
+                    menu.setOnAction(e-> {
+                        ui.start(window);
+                    }); 
+                    stop();
+                }
+                
+                extraTimeClock++;
+
+                if (timeStarted && extraTimeClock > 60 - 3 * board.level) {
+                    place = true;
+                }
+
+                clock++;
+                if (clock / 60 > 1.1 - Math.log10(board.level)) {
+                    movePieceDown(false);
+                }
+
+                score.setText("SCORE: " + board.score);
+                lines.setText("LINES: " + board.lines);
+                level.setText("LEVEL: " + board.level);
+
             }
             
-            clock++;
-            if (clock / 60 > 1.1 - Math.log10(board.level)) {
-                board.movePieceDown(1);
-                clock = 0;
+            public void movePieceDown(boolean softDrop) {
+                if (board.checkBelow(board.currentY)) {
+                        board.movePieceDown(1, softDrop);
+                        clock = 0;
+                        timeStarted = false;
+                    } else if (place) {
+                        board.movePieceDown(1, softDrop);
+                        clock = 0;
+                        place = false;
+                        timeStarted = false;
+                    } else if (!timeStarted) {
+                        extraTimeClock = 0;
+                        timeStarted = true;
+                        times = 3;
+                    }
             }
-            
-            score.setText("SCORE: " + board.score);
-            lines.setText("LINES: " + board.lines);
-            level.setText("LEVEL: " + board.level);
-            
-        }        
-    }.start();
+        }.start();
         
     };
     
-    
-    
 }
-

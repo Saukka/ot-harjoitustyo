@@ -3,12 +3,15 @@ package tetris.domain;
 
 import java.util.Random;
 import javafx.scene.paint.Color;
+import java.util.ArrayList;
 
-
-public class Tetramino {
+public class Tetromino {
 
     
     Color[] colors;
+    ArrayList<Integer> pieceBag = new ArrayList<>();
+    Color[] strokeColor;
+    
     
     // Palikoiden nimet	
     enum piece {
@@ -29,17 +32,31 @@ public class Tetramino {
     piece current;
     private int[][] currentCoords;
     
-    public Tetramino() {
+    public Tetromino() {
         currentCoords = new int[4][2];
         setCurrentShape(piece.Empty);
+        for (int i = 1; i < 8; i++) {
+            pieceBag.add(i);
+        }
     }
     
-    Color getColor(int level) {
-        //if (level == 1) {
-        colors = new Color[]{Color.web("0x48F62D"), Color.web("0xF6FFFF"), Color.web("0x48F62D"), Color.web("0x3752FF"), Color.web("0x48F62D"), Color.web("0x3752FF"), Color.web("0xF6FFFF"), Color.web("0xF6FFFF")};
-        //}
-        return colors[current.ordinal()];
+    Color getColor(int level, int value) {
+        if (level < 3) {
+            colors = new Color[]{Color.web("0x29C343"), Color.web("0xF6FFFF"), Color.web("0x48F62D"), Color.web("0x3752FF"), Color.web("0x48F62D"), Color.web("0x3752FF"), Color.web("0xF6FFFF"), Color.web("0xF6FFFF")};
+        } else if (level < 5) {
+            colors = new Color[]{Color.web("0x781E98"), Color.web("0xF6FFFF"), Color.web("0xFFB7FB"), Color.web("0xA824D8"), Color.web("0xFFB7FB"), Color.web("0xA824D8"), Color.web("0xF6FFFF"), Color.web("0xF6FFFF")};
+        } else if (level < 8) {
+            colors = new Color[]{Color.web("0x5FD1A0"), Color.web("0xF6FFFF"), Color.web("0xA2A2FF"), Color.web("0x74FFC3"), Color.web("0xA2A2FF"), Color.web("0x74FFC3"), Color.web("0xF6FFFF"), Color.web("0xF6FFFF")};
+        }  else if (level < 10) {
+            colors = new Color[]{Color.web("0x1E25F2"), Color.web("0xF6FFFF"), Color.web("0xB61B1B"), Color.web("0x333AFF"), Color.web("0xB61B1B"), Color.web("0x333AFF"), Color.web("0xF6FFFF"), Color.web("0xF6FFFF")};
+        } else if (level < 12) {
+            colors = new Color[]{Color.web("0XE50101"), Color.web("0xF6FFFF"), Color.web("0xFFCC33"), Color.web("0xB61B1B"), Color.web("0xFFCC33"), Color.web("0xB61B1B"), Color.web("0xF6FFFF"), Color.web("0xF6FFFF")};
+        } else {
+            colors = new Color[]{Color.web("0x3744F7"), Color.web("0xF6FFFF"), Color.web("0xA6FAFF"), Color.web("0x3A41FF"), Color.web("0xA6FAFF"), Color.web("0x3A41FF"), Color.web("0xF6FFFF"), Color.web("0xF6FFFF")};
+        }
+        return colors[value];
     }
+    
     
     void setCurrentShape(piece piece) {
         for (int i = 0; i < 4; i++) {
@@ -49,8 +66,8 @@ public class Tetramino {
     }
     
     void setRandomShape() {
-       piece[] pieceValues = piece.values();
-       setCurrentShape(pieceValues[new Random().nextInt(7)+1]);
+        piece[] pieceValues = piece.values();
+        setCurrentShape(pieceValues[new Random().nextInt(7) + 1]);
     }
     
     int width() {
@@ -117,13 +134,30 @@ public class Tetramino {
         int[][] newCoords = new int[4][2];
         for (int i = 0; i < 4; i++) {
             newCoords[i][0] = currentCoords[i][1];
-            newCoords[i][1] = - currentCoords[i][0];
+            newCoords[i][1] = -currentCoords[i][0];
         }
         return newCoords;
     }
     
-    void move() {
-        
+    int[][] rotateRight() {
+        int[][] newCoords = new int[4][2];
+        for (int i = 0; i < 4; i++) {
+            newCoords[i][0] = -currentCoords[i][1];
+            newCoords[i][1] = currentCoords[i][0];
+        }
+        return newCoords;
+    }
+    
+    int getNextPiece() {
+        int random = new Random().nextInt(pieceBag.size());
+        int piece = pieceBag.get(random);
+        pieceBag.remove(random);
+        if (pieceBag.isEmpty()) {
+            for (int i = 1; i < 8; i++) {
+                pieceBag.add(i);
+            }
+        }
+        return piece;
     }
     
 }
