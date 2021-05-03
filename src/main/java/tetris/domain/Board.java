@@ -96,10 +96,10 @@ public class Board {
         currentY = -1 + 4;
         drawPiece(currentX - 4, currentY - 4, currentPiece, pieceSquare, pane);
         updateGhost();
-        if (hold) {
-            return;
+        if (!hold) {
+            nextPiece = currentPiece.getNextPiece();
         }
-        nextPiece = currentPiece.getNextPiece();
+        
     }
     
     void drawPiece(double x, double y, Tetromino piece, Rectangle[] rectangle, Pane pane) {
@@ -290,6 +290,7 @@ public class Board {
             reColorPlaced();
         } 
     }
+    
     
     int checkRotate(int[][] coordinates) {
         int answer = 0;

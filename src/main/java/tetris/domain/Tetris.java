@@ -92,7 +92,6 @@ public class Tetris {
         AtomicReference<Boolean> hardDrop = new AtomicReference<>();
         hardDrop.set(false);
         
-        
         KeyCode rotateLeftK = keys.get(0);
         KeyCode rotateRightK = keys.get(1);
         KeyCode holdK = keys.get(2);
@@ -143,7 +142,6 @@ public class Tetris {
             float extraTimeClock = 0;
             boolean timeStarted = false;
             int times = 4;
-            
 
             @Override
             public void handle(long time) {
