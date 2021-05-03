@@ -18,6 +18,12 @@
 
 24.4 Pelialueelle väritys 5h
 
-25.5 Pelin mukavuuden parantamista, pelialueelle pisteet ja level
+25.4 Pelin mukavuuden parantamista, next-palikka, pelialueelle pisteet ja level 5h
 
-yhteensä: 35h
+29.4 Pelialueen rajojen uudistus 3h, hold- ja haamupalikan kehittäminen 3h
+
+2.5 Uudet värit eri tasoille, uusi luokka asetetuille neliöille 3h. 
+
+3.5 Palikoiden liikuttaminen paremmaksi ja nopeammaksi uudistamalla miten inputteja käsitellään 2h. Aloitusruutuun napit mistä käyttäjä voi valita käyttämänsä näppäimet 2h. 
+
+yhteensä: 56h
