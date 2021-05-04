@@ -42,3 +42,5 @@ mvn javadoc:javadoc
 [Työaikakirjanpito](https://github.com/Saukka/ot-harjoitustyo/blob/master/dokumentaatio/työaikakirjanpito.md) 
 
 [Arkkitehtuurikuvaus](https://github.com/Saukka/ot-harjoitustyo/blob/master/dokumentaatio/arkkitehtuuri.md)
+
+[Käyttöohje](https://github.com/Saukka/ot-harjoitustyo/blob/master/dokumentaatio/Käyttöohje.md)
