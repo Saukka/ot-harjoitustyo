@@ -40,7 +40,7 @@ public class TetrominoTest {
     @Test
     public void rotatedIPieceHeightIsFour() {
         tetromino = new Tetromino();
-        tetromino.setCurrentShape(Tetromino.piece.IPiece);
+        tetromino.setCurrentShape(Tetromino.piece.IPIECE);
         tetromino.setCoords(tetromino.rotateLeft());
         assertEquals(4, tetromino.height());
     }
