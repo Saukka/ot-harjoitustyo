@@ -100,14 +100,13 @@ public class Board {
         
         currentPiece.setCurrentShape(piece.values()[pieceValue]);
         
-        currentX = widthSquares / 2 + 4;
-        currentY = -1 + 4;
+        currentX = widthSquares / 2 + 3;
+        currentY = 3;
         drawPiece(currentX - 4, currentY - 4, currentPiece, pieceSquare, pane);
         updateGhost();
         if (!hold) {
             nextPiece = currentPiece.getNextPiece();
         }
-        
     }
     /**
      * Metodi piirtää palikan.
@@ -147,7 +146,7 @@ public class Board {
         newPiece(false, nextPiece);
     }
     /**
-     * Tason vaihtuessa, metodi uudelleenvärittää asetetut palikat.
+     * Tason vaihtuessa metodi uudelleenvärittää asetetut palikat.
      */
     void reColorPlaced() {
         for (int i = 0; i < placed.size(); i++) {

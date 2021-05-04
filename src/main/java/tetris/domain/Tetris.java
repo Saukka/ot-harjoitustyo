@@ -161,15 +161,13 @@ public class Tetris {
                     accelerationClock++;
                     if (!accelerationLeft) {
                         board.movePieceLeft();
-                        extraTimeClock -= times * 5;
-                        times--;
+                        giveTime();
                         accelerationLeft = true;
                     }
                     if (accelerationClock > accelerationTimes * 3) {
                         accelerationTimes++;
                         board.movePieceLeft();
-                        extraTimeClock -= times * 5;
-                        times--;
+                        giveTime();
                     } 
                 } else {
                     accelerationLeft = false;
@@ -179,15 +177,13 @@ public class Tetris {
                     accelerationClock++;
                     if (!accelerationRight) {
                         board.movePieceRight();
-                        extraTimeClock -= times * 5;
-                        times--;
+                        giveTime();
                         accelerationRight = true;
                     }
                     if (accelerationClock > accelerationTimes * 3) {
                         accelerationTimes++;
                         board.movePieceRight();
-                        extraTimeClock -= times * 5;
-                        times--;
+                        giveTime();
                     }
                 } else {
                     accelerationRight = false;
@@ -204,14 +200,12 @@ public class Tetris {
                 
                 if ((otherButtons.getOrDefault(rotateLeftK, false)) && !accelerationOther) {
                     board.rotatePiece(0);
-                    extraTimeClock -= times * 5;
-                    times--;
+                    giveTime();
                     accelerationOther = true;
                 }
                 if ((otherButtons.getOrDefault(rotateRightK, false)) && !accelerationOther) {
                     board.rotatePiece(1);
-                    extraTimeClock -= times * 5;
-                    times--;
+                    giveTime();
                     accelerationOther = true;
                 }
                 
@@ -289,6 +283,11 @@ public class Tetris {
                         times = 3;
                     }
             }
+            public void giveTime() {
+                extraTimeClock -= times * 5;
+                times--;
+            }
+            
         }.start();
         
     };
