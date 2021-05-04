@@ -23,7 +23,9 @@ import java.util.Collections;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.ArrayList;
 
-
+/**
+ * Luokassa on pelin ulkoasun asettelu. Luokka sisältää myös AnimationTimerin jossa käsitellään käyttäjän inputit.
+ */
 public class Tetris {
     
     public void start(Stage window, ArrayList<KeyCode> keys) {
