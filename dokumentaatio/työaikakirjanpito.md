@@ -26,4 +26,4 @@
 
 3.5 Palikoiden liikuttaminen paremmaksi ja nopeammaksi uudistamalla miten inputteja käsitellään 2h. Aloitusruutuun napit mistä käyttäjä voi valita käyttämänsä näppäimet 2h. 
 
-yhteensä: 56h
+yhteensä: 58h
