@@ -47,7 +47,7 @@ public class Tetris {
         Pane left = new Pane();
         left.setPrefSize(210, 560);
         
-        Rectangle holdBox = new Rectangle(20, 56, 168, 112);
+        Rectangle holdBox = new Rectangle(28, 56, 168, 112);
         holdBox.setArcHeight(22);
         holdBox.setArcWidth(22);
         left.getChildren().add(holdBox);
@@ -72,7 +72,7 @@ public class Tetris {
         
         Tetromino next = new Tetromino();
         next.setCurrentShape(Tetromino.piece.values()[board.nextPiece]);
-        board.drawPiece(3 - next.minX() - ((double) next.width() / 2) , 4, next, rectangleNext, right);
+        board.drawPiece(3 - next.minX() - ((double) next.width() / 2) , 3 - next.minY() - ((double) next.height() / 2), next, rectangleNext, right);
         
         Tetromino hold = new Tetromino();
         hold.setCurrentShape(Tetromino.piece.values()[board.holdPiece]);
@@ -228,19 +228,19 @@ public class Tetris {
                     if (board.holdPiece == 0) {
                         board.swapHold();
                         hold.setCurrentShape(Tetromino.piece.values()[board.holdPiece]);
-                        board.drawPiece(3.5, 3.5, hold, rectangleHold, left);
+                        board.drawPiece(4 - hold.minX() - ((double) hold.width() / 2) , 4 - hold.minY() - ((double) hold.height() / 2), hold, rectangleHold, left);
                     } else if (board.canSwapHold) {
                         board.swapHold();
                         left.getChildren().remove(4, 8);
                         hold.setCurrentShape(Tetromino.piece.values()[board.holdPiece]);
-                        board.drawPiece(3.5, 3.5, hold, rectangleHold, left);
+                        board.drawPiece(4 - hold.minX() - ((double) hold.width() / 2) , 4 - hold.minY() - ((double) hold.height() / 2), hold, rectangleHold, left);
                     }
                 }
                 
                 if (board.nextPiece != board.currentPiece.current.ordinal()) {
                     right.getChildren().remove(1, 5);
                     next.setCurrentShape(Tetromino.piece.values()[board.nextPiece]);
-                    board.drawPiece(3 - next.minX() - ((double) next.width() / 2) , 4, next, rectangleNext, right);
+                    board.drawPiece(3 - next.minX() - ((double) next.width() / 2) , 4 - next.minY() - ((double) next.height() / 2), next, rectangleNext, right);
                 }
 
                 if (board.end) {
