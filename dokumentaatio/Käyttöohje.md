@@ -1,15 +1,5 @@
 # Käyttöohje
 
-Lataa tiedosto
-
-## Ohjelman käynnistäminen
-
-Siirrä tiedosto Tetris-1.0-SNAPSHOT.jar projektin hakemistoon, ja käynnistä sovellus komennolla
-
-```
-java -jar Tetris-1.0-SNAPSHOT.jar
-```
-
 ## Aloitusruutu
 
 Nappia painamalla ja antamalla inputin voi vaihtaa pelissä käytettäviä näppäimiä. Kun olet valmis, paina start aloittaaksesi pelin.
