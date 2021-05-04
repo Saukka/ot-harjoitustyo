@@ -7,6 +7,8 @@ Sovelluksen avulla voi pelata klassisen tyyppistä Tetristä. Ylhäältä tippuu
 
 ### Releaset
 
+[Viikko 6](https://github.com/Saukka/ot-harjoitustyo/releases/tag/viikko6)
+
 [Viikko 5](https://github.com/Saukka/ot-harjoitustyo/releases/tag/viikko5)
 
 Ladattuasi projektin lähdekoodin, siirrä tiedosto Tetris-1.0-SNAPSHOT.jar projektin hakemistoon, ja käynnistä sovellus komennolla java -jar Tetris-1.0-SNAPSHOT.jar
