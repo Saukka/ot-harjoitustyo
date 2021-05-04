@@ -2,7 +2,7 @@
 
 Toteutukseni Tetris-pelistä. 
 
-Sovelluksen avulla voi pelata klassisen tyyppistä Tetristä. Ylhäältä tippuu vuorollaan palikoita, mitä korkeampi taso, sitä nopeammin. Palikoita voi liikuttaa vasemmalle ja oikealle pelialueen sisällä, sekä kääntää (tällä hetkellä vain vasemmalle). Palikan voi myös tiputtaa alas suoraan. Tavoitteena on kerätä mahdollisimman paljon pisteitä. Pisteitä saa sorruttamalla rivejä, eniten sorruttaessa neljä riviä samalla. Peli loppuu, kun palikkaa ei saa asetettua pelialueen sisälle. 
+Sovelluksen avulla voi pelata klassisen tyyppistä Tetristä. Ylhäältä tippuu vuorollaan palikoita, mitä korkeampi taso, sitä nopeammin palikka putoaa. Palikoita voi liikuttaa vasemmalle ja oikealle pelialueen sisällä, sekä kääntää. Palikan voi myös tiputtaa alas suoraan. Palikan voi asettaa holdiin, jolloin hold-palikka vaihdetaan nykyisen kanssa. Tavoitteena on kerätä mahdollisimman paljon pisteitä. Pisteitä saa sorruttamalla rivejä, eniten sorruttaessa neljä riviä samalla. Peli loppuu, kun palikkaa ei saa asetettua pelialueen sisälle. 
 
 
 ### Releaset
@@ -41,7 +41,7 @@ Checkstyle tarkistukset voi suorittaa komennolla
 
 ```
 mvn jxr:jxr checkstyle:checkstyle
-
+```
 
 ## Dokumentaatio
 
