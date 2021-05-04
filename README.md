@@ -37,6 +37,12 @@ JavaDocin voi generoida komennolla
 mvn javadoc:javadoc
 ```
 
+Checkstyle tarkistukset voi suorittaa komennolla
+
+```
+mvn jxr:jxr checkstyle:checkstyle
+
+
 ## Dokumentaatio
 
 [Vaatimusmäärittely](https://github.com/Saukka/ot-harjoitustyo/blob/master/dokumentaatio/vaatimusmaarittely.md)
@@ -46,4 +52,3 @@ mvn javadoc:javadoc
 [Käyttöohje](https://github.com/Saukka/ot-harjoitustyo/blob/master/dokumentaatio/Käyttöohje.md)
 
 [Arkkitehtuurikuvaus](https://github.com/Saukka/ot-harjoitustyo/blob/master/dokumentaatio/arkkitehtuuri.md)
-
