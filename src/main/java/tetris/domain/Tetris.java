@@ -24,7 +24,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.ArrayList;
 
 /**
- * Luokassa on pelin ulkoasun asettelu. Luokka sisältää myös AnimationTimerin jossa käsitellään käyttäjän inputit.
+ * Luokassa asetetaan peliin kuuluvat ulkoasu-komponentit jotka vaihtelevat peliä pelatessa. Luokka sisältää AnimationTimerin, jossa käsitellään käyttäjän inputit.
  */
 public class Tetris {
     
