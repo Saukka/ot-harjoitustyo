@@ -12,7 +12,9 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import tetris.domain.Tetromino.piece;
 
-
+/**
+ * Luokka hoitaa kaikki pelialueella tapahtuvat asiat, kuten peliruutujen tilat ja palikan liikuttamisen.
+ */
 public class Board {
     
     Tetris tetris = new Tetris();
@@ -60,6 +62,7 @@ public class Board {
         spots = new int[widthSquares + 8][heightSquares + 6];
         placed = new ArrayList<>();
         
+        // annetaan pelialueen ulkopuolella oleville koordinaateille arvot 1.
         for (int x = 0; x < 18; x++) {
             for (int y = 25; y > -1; y--) {
                 if (x < 4 || x > 13 || y > 23) {
@@ -88,6 +91,11 @@ public class Board {
         end = false;
     }
     
+    /**
+     * Metodi luo uuden palikan. 
+     * @param hold onko kyseessä hold palikan vaihto
+     * @param pieceValue palikan arvo Tetromino luokassa
+     */
     void newPiece(boolean hold, int pieceValue) {
         
         currentPiece.setCurrentShape(piece.values()[pieceValue]);
@@ -101,7 +109,14 @@ public class Board {
         }
         
     }
-    
+    /**
+     * Metodi piirtää palikan.
+     * @param x x-koordinaatti piirretyn palikan keskipisteelle ruudulla
+     * @param y y-koordinaatti piirretyn palikan keskipisteelle ruudulla
+     * @param piece piirrettävä palikka
+     * @param rectangle rectangle joilla palikka piirretään
+     * @param pane pane johon palikka piirretään
+     */
     void drawPiece(double x, double y, Tetromino piece, Rectangle[] rectangle, Pane pane) {
         // Jokainen palikka piirretään neljällä pienemmällä neliöllä
         for (int i = 0; i < 4; i++) {
@@ -112,6 +127,10 @@ public class Board {
         }
     }
     
+    /**
+     * Metodi asettaa palikan peliruudulle. 
+     * Jos palikkaa ei saada asetettua pelialueen sisälle, peli loppuu.
+     */
     void place() {
         boolean endGame = true;
         for (int i = 0; i < 4; i++) {
@@ -127,7 +146,9 @@ public class Board {
         clearLines();
         newPiece(false, nextPiece);
     }
-    
+    /**
+     * Tason vaihtuessa, metodi uudelleenvärittää asetetut palikat.
+     */
     void reColorPlaced() {
         for (int i = 0; i < placed.size(); i++) {
             placed.get(i).reColor(level);
@@ -202,7 +223,9 @@ public class Board {
             ghostSquare[i].setY((y - 4 + currentPiece.getCoords()[i][1]) * squareWidth);
         }
     }
-    
+    /**
+     * Metodi laskee kuinka alhaalle palikan voi tiputtaa, ja sitten asettaa sen sinne.
+     */
     void hardDrop()  {
         
         int squares = 0;
@@ -232,7 +255,10 @@ public class Board {
         }
         
     }
-    
+    /**
+     * Metodi käy jokaisen rivim läpi ja katsoo, onko rivi täynnä. Jos rivi on täynnä, rivi sorrutetaan ja yllä olevia rivejä tuodaan alaspäin.
+     * Mahdollisten rivien sorruttamisien jälkeen sorruttamisesta annetaan pisteet.
+     */
     void clearLines() {
         int cleared  = 0;
         for (int i = 23; i > 3; i--) {
@@ -291,7 +317,11 @@ public class Board {
         } 
     }
     
-    
+    /**
+     * Metodi tarkastaa, voiko palikkaa kääntää. Aluksi katsotaan, voiko palikkaa normaalisti kääntää annetuille koordinaateille. Jos ei, testataan, jos palikan voisi kääntää yhden korkeammalle riville.
+     * @param coordinates tarkistettavat koordinaatit.
+     * @return vastaus voiko palikkaa kääntää, ja minne se käännetään. Jos palikkaa ei voi kääntää, return = -1
+     */
     int checkRotate(int[][] coordinates) {
         int answer = 0;
         for (int i = 0; i < 4; i++) {

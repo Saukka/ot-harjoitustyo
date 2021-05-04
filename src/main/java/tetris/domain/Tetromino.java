@@ -5,6 +5,9 @@ import java.util.Random;
 import javafx.scene.paint.Color;
 import java.util.ArrayList;
 
+/**
+ * Luokassa on jokaisen palikan tiedot kuten koordinaatit ja palikan kääntäminen.
+ */
 public class Tetromino {
 
     
@@ -15,7 +18,7 @@ public class Tetromino {
     
     // Palikoiden nimet	
     enum piece {
-        Empty, Square, SPiece, MirrorSPiece, LPiece, MirrorLPiece, TPiece, IPiece
+        EMPTY, SPIECE, SPiece, MIRRORSPIECE, LPIECE, MIRRORLPIECE, TPIECE, IPIECE
     }	   
     
     // Jokainen palikka muodostuu neljästä neliöstä
@@ -34,12 +37,18 @@ public class Tetromino {
     
     public Tetromino() {
         currentCoords = new int[4][2];
-        setCurrentShape(piece.Empty);
+        setCurrentShape(piece.EMPTY);
         for (int i = 1; i < 8; i++) {
             pieceBag.add(i);
         }
     }
     
+    /**
+     * Metodi palauttaa annetulle palikalle kuuluvan värin. colors-arrayn ensimmäisessä arvossa on reunaviivojen väri.
+     * @param level taso millä ollaan
+     * @param value palikan arvo
+     * @return palikalle kuuluva väri
+     */
     Color getColor(int level, int value) {
         if (level < 3) {
             colors = new Color[]{Color.web("0x29C343"), Color.web("0xF6FFFF"), Color.web("0x48F62D"), Color.web("0x3752FF"), Color.web("0x48F62D"), Color.web("0x3752FF"), Color.web("0xF6FFFF"), Color.web("0xF6FFFF")};
@@ -147,7 +156,11 @@ public class Tetromino {
         }
         return newCoords;
     }
-    
+    /**
+     * Pussi-menetelmää käyttävä metodi, joka antaa seuraavan palikan.
+     * Pussissa on jokaista palikkaa yksi, ja ne annetaan satunnaisessa järjestyksessä. Pussin tyhjennettyä se täytetään uudelleen.
+     * @return seuraava palikka
+     */
     int getNextPiece() {
         int random = new Random().nextInt(pieceBag.size());
         int piece = pieceBag.get(random);
