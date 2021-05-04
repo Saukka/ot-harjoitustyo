@@ -3,7 +3,9 @@ package tetris.domain;
 
 import javafx.scene.shape.Rectangle;
 
-// Asetetun ruudun info
+/**
+ * Luokka pitää tallessa asetetun palikan yhden neliön infon.
+ */
 public class PlacedRectangle {
     
     Tetromino tetromino = new Tetromino();
