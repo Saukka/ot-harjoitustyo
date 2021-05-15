@@ -2,10 +2,12 @@
 
 Toteutukseni Tetris-pelistä. 
 
-Sovelluksen avulla voi pelata klassisen tyyppistä Tetristä. Ylhäältä tippuu vuorollaan palikoita, mitä korkeampi taso, sitä nopeammin. Palikoita voi liikuttaa vasemmalle ja oikealle pelialueen sisällä, sekä kääntää (tällä hetkellä vain vasemmalle). Palikan voi myös tiputtaa alas suoraan. Tavoitteena on kerätä mahdollisimman paljon pisteitä. Pisteitä saa sorruttamalla rivejä, eniten sorruttaessa neljä riviä samalla. Peli loppuu, kun palikkaa ei saa asetettua pelialueen sisälle. 
+Sovelluksen avulla voi pelata klassisen tyyppistä Tetristä. Ylhäältä tippuu vuorollaan palikoita, mitä korkeampi taso, sitä nopeammin palikka putoaa. Palikoita voi liikuttaa vasemmalle ja oikealle pelialueen sisällä, sekä kääntää. Palikan voi myös tiputtaa alas suoraan. Palikan voi asettaa holdiin, jolloin hold-palikka vaihdetaan nykyisen kanssa. Tavoitteena on kerätä mahdollisimman paljon pisteitä. Pisteitä saa sorruttamalla rivejä, eniten sorruttaessa neljä riviä samalla. Peli loppuu, kun palikkaa ei saa asetettua pelialueen sisälle. 
 
 
 ### Releaset
+
+[Viikko 6](https://github.com/Saukka/ot-harjoitustyo/releases/tag/viikko6)
 
 [Viikko 5](https://github.com/Saukka/ot-harjoitustyo/releases/tag/viikko5)
 
@@ -35,6 +37,12 @@ JavaDocin voi generoida komennolla
 mvn javadoc:javadoc
 ```
 
+Checkstyle tarkistukset voi suorittaa komennolla
+
+```
+mvn jxr:jxr checkstyle:checkstyle
+```
+
 ## Dokumentaatio
 
 [Vaatimusmäärittely](https://github.com/Saukka/ot-harjoitustyo/blob/master/dokumentaatio/vaatimusmaarittely.md)
@@ -44,4 +52,3 @@ mvn javadoc:javadoc
 [Käyttöohje](https://github.com/Saukka/ot-harjoitustyo/blob/master/dokumentaatio/Käyttöohje.md)
 
 [Arkkitehtuurikuvaus](https://github.com/Saukka/ot-harjoitustyo/blob/master/dokumentaatio/arkkitehtuuri.md)
-
