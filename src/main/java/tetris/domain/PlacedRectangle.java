@@ -1,10 +1,8 @@
 
 package tetris.domain;
 
-import javafx.scene.shape.Rectangle;
-
 /**
- * Luokka pitää tallessa asetetun palikan yhden neliön infon.
+ * Luokka pitää tallessa asetetun neliön infon.
  */
 public class PlacedRectangle {
     
@@ -13,24 +11,26 @@ public class PlacedRectangle {
     int x;
     int y;
     int pieceValue;
-    Rectangle rectangle;
+    Square square;
     
     
-    public PlacedRectangle(int x, int y, int piece, Rectangle r) {
+    public PlacedRectangle(int x, int y, int piece, Square s) {
         this.x = x;
         this.y = y;
         this.pieceValue = piece;
-        this.rectangle = r;
+        this.square = s;
         
     }
     
-    void reColor(int level) {
-        rectangle.setFill(tetromino.getColor(level, pieceValue));
-        rectangle.setStroke(tetromino.getColor(level, 0));
-    }
+     void reColor(int level) {
+        square.setColor(tetromino.getColor(level, pieceValue));
+        if (pieceValue == 1 || pieceValue > 5) {
+            square.setStroke(tetromino.getColor(level, 0));
+        }
+    } 
     
     int getY() {
-        return y;
+        return this.y;
     }
     void setY(int set) {
         this.y = set;

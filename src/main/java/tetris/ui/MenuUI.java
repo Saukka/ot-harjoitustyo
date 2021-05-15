@@ -5,15 +5,13 @@ import java.util.ArrayList;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.Label;
 import javafx.application.Application;
-import static javafx.application.Application.launch;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
-import tetris.domain.Tetris;
 
 
-public class UserInterface extends Application {
+public class MenuUI extends Application {
     
     @Override
     public void start(Stage window) {
@@ -71,17 +69,13 @@ public class UserInterface extends Application {
         left.relocate(292, 225);
         right.relocate(398, 225);
         down.relocate(345, 225);
-        
        
-        
         Pane setUp = new Pane();
         setUp.getChildren().addAll(startButton, rotate, rotateLeft, rotateRight, left2, right2, move, left, right, down, holdLabel, hold, hardDrop, hardDropLabel);
         
         Scene scene = new Scene(setUp,600,560);
         
         window.setScene(scene);
-        
-        Tetris tetris = new Tetris();
         
         ArrayList<Button> buttons = new ArrayList<>();
         buttons.add(rotateLeft);
@@ -92,16 +86,18 @@ public class UserInterface extends Application {
         buttons.add(down);
         buttons.add(right);
         
-        for (Button b : buttons) {
+        buttons.forEach((b) -> {
             b.setOnKeyPressed(event -> {
                 b.setText("");
                 b.setText(event.getCode().getName());
                 keys.set(buttons.indexOf(b), event.getCode());
             });
-        }
+        });
+        
+        GameUI gameUI = new GameUI();
         
         startButton.setOnAction(e-> {
-            tetris.start(window, keys);
+            gameUI.start(window, keys);
         });
         
         window.show();   

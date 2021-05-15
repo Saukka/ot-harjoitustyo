@@ -1,11 +1,13 @@
 package tetris.domain;
 
+import javafx.scene.paint.Color;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import tetris.domain.Tetromino.shape;
 
 
 
@@ -40,24 +42,15 @@ public class TetrominoTest {
     @Test
     public void rotatedIPieceHeightIsFour() {
         tetromino = new Tetromino();
-        tetromino.setCurrentShape(Tetromino.piece.IPIECE);
+        tetromino.setCurrentShape(shape.IPIECE);
         tetromino.setCoords(tetromino.rotateLeft());
         assertEquals(4, tetromino.height());
     }
     
     @Test 
-    public void pieceBagWorksProperly() {
+    public void returnsCorrectColorAndStroke() {
         tetromino = new Tetromino();
-        tetromino.getNextPiece();
-        tetromino.getNextPiece();
-        tetromino.getNextPiece();
-        tetromino.getNextPiece();
-        tetromino.getNextPiece();
-        tetromino.getNextPiece();
-        // yksi jäljellä
-        assertEquals(1, tetromino.pieceBag.size());
-        tetromino.getNextPiece();
-        // pussi täytetään uudelleen kun viimeinen otetaan pois
-        assertEquals(7, tetromino.pieceBag.size());
+        assertEquals(Color.web("0xA2A2FF"), tetromino.getColor(5, 2));
+        assertEquals(Color.web("0XE50101"), tetromino.getColor(11, 0));
     }
 }

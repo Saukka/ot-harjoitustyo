@@ -12,13 +12,10 @@ public class Tetromino {
 
     
     Color[] colors;
-    ArrayList<Integer> pieceBag = new ArrayList<>();
-    Color[] strokeColor;
-    
     
     // Palikoiden nimet	
-    enum piece {
-        EMPTY, SPIECE, SPiece, MIRRORSPIECE, LPIECE, MIRRORLPIECE, TPIECE, IPIECE
+    enum shape {
+        EMPTY, SQUARE, SPIECE, MIRRORSPIECE, LPIECE, MIRRORLPIECE, TPIECE, IPIECE
     }	   
     
     // Jokainen palikka muodostuu neljästä neliöstä
@@ -30,17 +27,14 @@ public class Tetromino {
         {{1, -1}, {1, 0}, {0, 0}, {-1, 0}}, // LPiece
         {{-1, -1}, {-1, 0}, {0, 0}, {1, 0}}, // MirrorLPiece		
         {{-1, 0}, {0, 0}, {1, 0}, {0, -1}}, // TPiece		
-        {{-1, 0}, {0, 0}, {1, 0}, {2, 0}}// IPiece
+        {{-1, 0}, {0, 0}, {1, 0}, {2, 0}} // IPiece
     };
-    piece current;
+    shape shape;
     private int[][] currentCoords;
     
     public Tetromino() {
         currentCoords = new int[4][2];
-        setCurrentShape(piece.EMPTY);
-        for (int i = 1; i < 8; i++) {
-            pieceBag.add(i);
-        }
+        setCurrentShape(shape.EMPTY);
     }
     
     /**
@@ -67,15 +61,15 @@ public class Tetromino {
     }
     
     
-    void setCurrentShape(piece piece) {
+    void setCurrentShape(shape piece) {
         for (int i = 0; i < 4; i++) {
             System.arraycopy(pieces[piece.ordinal()], 0, currentCoords, 0, 4);
         }
-        current = piece;
+        shape = piece;
     }
     
     void setRandomShape() {
-        piece[] pieceValues = piece.values();
+        shape[] pieceValues = shape.values();
         setCurrentShape(pieceValues[new Random().nextInt(7) + 1]);
     }
     
@@ -155,22 +149,6 @@ public class Tetromino {
             newCoords[i][1] = currentCoords[i][0];
         }
         return newCoords;
-    }
-    /**
-     * Pussi-menetelmää käyttävä metodi, joka antaa seuraavan palikan.
-     * Pussissa on jokaista palikkaa yksi, ja ne annetaan satunnaisessa järjestyksessä. Pussin tyhjennettyä se täytetään uudelleen.
-     * @return seuraava palikka
-     */
-    int getNextPiece() {
-        int random = new Random().nextInt(pieceBag.size());
-        int piece = pieceBag.get(random);
-        pieceBag.remove(random);
-        if (pieceBag.isEmpty()) {
-            for (int i = 1; i < 8; i++) {
-                pieceBag.add(i);
-            }
-        }
-        return piece;
     }
     
 }

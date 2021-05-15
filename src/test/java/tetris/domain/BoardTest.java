@@ -27,7 +27,7 @@ public class BoardTest {
     public void droppedPieceAddedToList() {
         board = new Board();
         board.newPiece(false, board.nextPiece);
-        board.hardDrop();
+        board.current.hardDrop();
         assertEquals(4, board.placed.size());
         // jokainen palikka on neljä neliötä, ja placed listaan tallennetaan neliöt
     } 
@@ -36,7 +36,7 @@ public class BoardTest {
     public void scoreIncreases() {
         board = new Board();
         board.newPiece(false, board.nextPiece);
-        board.hardDrop();
+        board.current.hardDrop();
         assertTrue(board.score > 30);
     }
     
@@ -46,25 +46,26 @@ public class BoardTest {
         board.newPiece(false, board.nextPiece);
         board.swapHold();
         int holdPiece = board.holdPiece;
-        board.hardDrop();
+        board.current.hardDrop();
         board.swapHold();
-        assertEquals(holdPiece, board.currentPiece.current.ordinal());
+        assertEquals(holdPiece, board.current.piece.shape.ordinal());
     }
     
     @Test
     public void movingPieceWorks() {
         board = new Board();
         board.newPiece(false, board.nextPiece);
-        int xCoordinate = board.currentX;
-        board.movePieceRight();
-        assertFalse(xCoordinate == board.currentX);
-        board.movePieceLeft();
-        assertEquals(xCoordinate, board.currentX);
-        board.movePieceLeft();
-        assertEquals(xCoordinate - 1, board.currentX);
-        int yCoordinate = board.currentY;
-        board.movePieceDown(1, true);
-        board.movePieceDown(1, true);
-        assertEquals(yCoordinate + 2, board.currentY);
+        CurrentPiece piece = board.current;
+        int xCoordinate = piece.x;
+        piece.moveVertical(1);
+        assertFalse(xCoordinate == piece.x);
+        piece.moveVertical(-1);
+        assertEquals(xCoordinate, piece.x);
+        piece.moveVertical(-1);
+        assertEquals(xCoordinate - 1, piece.x);
+        int yCoordinate = piece.y;
+        board.current.moveDown(1, true);
+        piece.moveDown(1, true);
+        assertEquals(yCoordinate + 2, piece.y);
     }
 }

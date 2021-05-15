@@ -6,88 +6,37 @@ import java.util.Map;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.animation.AnimationTimer;
-import javafx.geometry.Insets;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.paint.Color;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.control.Button;
-import tetris.ui.UserInterface;
+import tetris.ui.MenuUI;
 import java.util.Collections;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.ArrayList;
+import tetris.domain.Tetromino.shape;
 
 /**
  * Luokassa asetetaan peliin kuuluvat ulkoasu-komponentit jotka vaihtelevat peliä pelatessa. Luokka sisältää AnimationTimerin, jossa käsitellään käyttäjän inputit.
  */
 public class Tetris {
     
-    public void start(Stage window, ArrayList<KeyCode> keys) {
-        UserInterface ui = new UserInterface();
-        
-        Rectangle[] rectangleNext = new Rectangle[4];
-        Rectangle[] rectangleHold = new Rectangle[4];
-        
-        // alusta jossa näkyy seuraava palikka
-        Rectangle nextBox = new Rectangle(0, 56, 168, 112);
-        nextBox.setArcHeight(22);
-        nextBox.setArcWidth(22);
-        nextBox.setFill(Color.web("0x3D3D3D"));
-        
-        Pane right = new Pane();
-        right.setPrefSize(210, 560);
-        right.getChildren().add(nextBox);
-        
-        Pane left = new Pane();
-        left.setPrefSize(210, 560);
-        
-        Rectangle holdBox = new Rectangle(28, 56, 168, 112);
-        holdBox.setArcHeight(22);
-        holdBox.setArcWidth(22);
-        left.getChildren().add(holdBox);
-        
-        Board board = new Board();
-        Text score = new Text("SCORE: " + board.score);
-        Text lines = new Text("LINES: " + board.lines);
-        Text level = new Text("LEVEL: " + board.level);
-        
-        level.setTranslateX(28);
-        level.setTranslateY(360);
-        level.setFont(Font.font("verdana", 20));
-        score.setTranslateX(28);
-        score.setTranslateY(400);
-        score.setFont(Font.font("verdana", 20));
-        lines.setTranslateX(28);
-        lines.setTranslateY(440);
-        lines.setFont(Font.font("verdana", 20));
-        left.getChildren().add(score);
-        left.getChildren().add(lines);
-        left.getChildren().add(level);
-        
-        Tetromino next = new Tetromino();
-        next.setCurrentShape(Tetromino.piece.values()[board.nextPiece]);
-        board.drawPiece(3 - next.minX() - ((double) next.width() / 2) , 3 - next.minY() - ((double) next.height() / 2), next, rectangleNext, right);
-        
-        Tetromino hold = new Tetromino();
-        hold.setCurrentShape(Tetromino.piece.values()[board.holdPiece]);
-        
-        board.pane.setPrefSize(board.widthPX, board.heightPX);
-        BorderPane view = new BorderPane();
-        view.setBackground(new Background(new BackgroundFill(Color.web("0x8A2EA6"), CornerRadii.EMPTY, Insets.EMPTY)));
-        view.setCenter(board.pane);
-        view.setLeft(left);
-        view.setRight(right);
-        view.setPrefSize(700, 560);
-        
-        Scene scene = new Scene(view);
-        window.setScene(scene);
-        window.show();
+    Stage window;
+    Scene scene;
+    BorderPane view;
+    Pane left;
+    Pane right;
+    
+    public Tetris(Stage window, Scene scene, BorderPane view, Pane left, Pane right) {
+        this.window = window;
+        this.scene = scene;
+        this.view = view;
+        this.left = left;
+        this.right = right;
+    }
+    
+    public void start(ArrayList<KeyCode> keys, Text score, Text lines, Text level) {
         
         Map<KeyCode, Boolean> movementButtons = new HashMap<>();
         Map<KeyCode, Boolean> otherButtons = new HashMap<>();
@@ -123,13 +72,28 @@ public class Tetris {
             }
         });
         
+        Board board = new Board();
+        view.setCenter(board.pane);
+        
         board.newPiece(false, board.nextPiece);
         
+        CurrentPiece piece = board.current;
+        
+        Square[] squareNext = new Square[4];
+        Square[] squareHold = new Square[4];
+        
+        Tetromino next = new Tetromino();
+        next.setCurrentShape(shape.values()[board.nextPiece]);
+        board.drawPiece(3 - next.minX() - ((double) next.width() / 2) , 3 - next.minY() - ((double) next.height() / 2), next, squareNext, right);
+        
+        Tetromino hold = new Tetromino();
+        hold.setCurrentShape(shape.values()[board.holdPiece]);
+        
+        MenuUI ui = new MenuUI();
         
         new AnimationTimer() {
 
             float clock = 0;
-            
             
             // seuraavien muuttujien avulla katsotaan, pidetäänkö näppäintä pohjassa
             int accelerationClock = 0;
@@ -160,13 +124,13 @@ public class Tetris {
                 if (movementButtons.getOrDefault(moveLeftK, false)) {
                     accelerationClock++;
                     if (!accelerationLeft) {
-                        board.movePieceLeft();
+                        piece.moveVertical(-1);
                         giveTime();
                         accelerationLeft = true;
                     }
                     if (accelerationClock > accelerationTimes * 3) {
                         accelerationTimes++;
-                        board.movePieceLeft();
+                        piece.moveVertical(-1);
                         giveTime();
                     } 
                 } else {
@@ -176,13 +140,13 @@ public class Tetris {
                 if (movementButtons.getOrDefault(moveRightK, false)) {
                     accelerationClock++;
                     if (!accelerationRight) {
-                        board.movePieceRight();
+                        piece.moveVertical(1);
                         giveTime();
                         accelerationRight = true;
                     }
                     if (accelerationClock > accelerationTimes * 3) {
                         accelerationTimes++;
-                        board.movePieceRight();
+                        piece.moveVertical(1);
                         giveTime();
                     }
                 } else {
@@ -199,42 +163,41 @@ public class Tetris {
                 } 
                 
                 if ((otherButtons.getOrDefault(rotateLeftK, false)) && !accelerationOther) {
-                    board.rotatePiece(0);
+                    piece.rotate(0);
                     giveTime();
                     accelerationOther = true;
                 }
                 if ((otherButtons.getOrDefault(rotateRightK, false)) && !accelerationOther) {
-                    board.rotatePiece(1);
+                    piece.rotate(1);
                     giveTime();
                     accelerationOther = true;
                 }
                 
                 if (hardDrop.get() == true && !accelerationDrop) {
-                        board.hardDrop();
+                        piece.hardDrop();
                         accelerationDrop = true;
                 } 
                 if (hardDrop.get() == false) {
                     accelerationDrop = false;
                 }
                     
-                if ((otherButtons.getOrDefault(holdK, false)) && !accelerationOther) {
-                    accelerationOther = true;
+                if ((otherButtons.getOrDefault(holdK, false))) {
                     if (board.holdPiece == 0) {
                         board.swapHold();
-                        hold.setCurrentShape(Tetromino.piece.values()[board.holdPiece]);
-                        board.drawPiece(4 - hold.minX() - ((double) hold.width() / 2) , 4 - hold.minY() - ((double) hold.height() / 2), hold, rectangleHold, left);
+                        hold.setCurrentShape(shape.values()[board.holdPiece]);
+                        board.drawPiece(4 - hold.minX() - ((double) hold.width() / 2) , 4 - hold.minY() - ((double) hold.height() / 2), hold, squareHold, left);
                     } else if (board.canSwapHold) {
                         board.swapHold();
-                        left.getChildren().remove(4, 8);
-                        hold.setCurrentShape(Tetromino.piece.values()[board.holdPiece]);
-                        board.drawPiece(4 - hold.minX() - ((double) hold.width() / 2) , 4 - hold.minY() - ((double) hold.height() / 2), hold, rectangleHold, left);
+                        left.getChildren().remove(4, (5 * 4));
+                        hold.setCurrentShape(shape.values()[board.holdPiece]);
+                        board.drawPiece(4 - hold.minX() - ((double) hold.width() / 2) , 4 - hold.minY() - ((double) hold.height() / 2), hold, squareHold, left);
                     }
                 }
                 
-                if (board.nextPiece != board.currentPiece.current.ordinal()) {
-                    right.getChildren().remove(1, 5);
-                    next.setCurrentShape(Tetromino.piece.values()[board.nextPiece]);
-                    board.drawPiece(3 - next.minX() - ((double) next.width() / 2) , 4 - next.minY() - ((double) next.height() / 2), next, rectangleNext, right);
+                if (board.nextPiece != piece.piece.shape.ordinal()) {
+                    right.getChildren().remove(1, 1 + (4 * 4));
+                    next.setCurrentShape(shape.values()[board.nextPiece]);
+                    board.drawPiece(3 - next.minX() - ((double) next.width() / 2) , 4 - next.minY() - ((double) next.height() / 2), next, squareNext, right);
                 }
 
                 if (board.end) {
@@ -268,12 +231,12 @@ public class Tetris {
             }
             
             public void movePieceDown(boolean softDrop) {
-                if (board.checkBelow(board.currentY)) {
-                        board.movePieceDown(1, softDrop);
+                if (board.checkBelow(piece.y)) {
+                        piece.moveDown(1, softDrop);
                         clock = 0;
                         timeStarted = false;
                     } else if (place) {
-                        board.movePieceDown(1, softDrop);
+                        piece.moveDown(1, softDrop);
                         clock = 0;
                         place = false;
                         timeStarted = false;

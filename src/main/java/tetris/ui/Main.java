@@ -1,10 +1,10 @@
 
 package tetris.ui;
 
-import tetris.ui.UserInterface;
+import tetris.ui.MenuUI;
 
 public class Main {
     public static void main(String[] args) {
-        UserInterface.main(args);
+        MenuUI.main(args);
     }
 }
