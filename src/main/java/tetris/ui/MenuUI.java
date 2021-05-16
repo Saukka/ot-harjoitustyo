@@ -29,10 +29,44 @@ public class MenuUI extends Application {
         keys.add(KeyCode.RIGHT);
         
         Button startButton = new Button("Start");
-        startButton.setFont(Font.font("Silom", 20));
+        startButton.setFont(Font.font("Silom", 18));
         startButton.setMinSize(80, 20);
         startButton.setLayoutX(300);
-        startButton.setLayoutY(380);
+        startButton.setLayoutY(495);
+        
+        Label levelLabel = new Label("LEVEL");
+        levelLabel.setFont(Font.font("Verdana", 15));
+        levelLabel.relocate(317, 429);
+        
+        Button levelButton = new Button("1");
+        levelButton.setMinSize(80, 20);
+        levelButton.relocate(300, 450);
+        
+        
+        levelButton.setOnAction(e -> {
+            int lv = Integer.valueOf(levelButton.getText());
+            if (lv == 1) {
+                lv = 3;
+            }
+            else if (lv < 10) {
+                lv += 3;
+            } else {
+                lv = 1;
+            }
+            levelButton.setText(String.valueOf(lv));
+        });
+        
+        
+        Button gameMode = new Button("normal");
+        gameMode.relocate(630, 450);
+        
+        gameMode.setOnAction(e -> {
+            if (gameMode.getText().equals("normal")) {
+                gameMode.setText("thin");
+            } else {
+                gameMode.setText("normal");
+            }
+        });
         
         Label rotate = new Label("Rotate");
         rotate.relocate(186, 125);
@@ -73,7 +107,8 @@ public class MenuUI extends Application {
         down.relocate(485, 210);
        
         Pane setUp = new Pane();
-        setUp.getChildren().addAll(startButton, rotate, rotateLeft, rotateRight, left2, right2, move, left, right, down, holdLabel, hold, hardDrop, hardDropLabel);
+        setUp.getChildren().addAll(startButton, levelLabel, levelButton, gameMode, rotate, rotateLeft, rotateRight, left2, right2, 
+                move, left, right, down, holdLabel, hold, hardDrop, hardDropLabel);
         
         Scene scene = new Scene(setUp,722, 602);
         
@@ -99,7 +134,11 @@ public class MenuUI extends Application {
         GameUI gameUI = new GameUI();
         
         startButton.setOnAction(e-> {
-            gameUI.start(window, keys);
+            boolean thin = false;
+            if (gameMode.getText().equals("thin")) {
+                thin = true;
+            }
+            gameUI.start(window, keys, Integer.valueOf(levelButton.getText()), thin);
         });
         
         window.show();   

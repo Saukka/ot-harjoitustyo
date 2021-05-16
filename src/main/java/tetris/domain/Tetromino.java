@@ -3,7 +3,6 @@ package tetris.domain;
 
 import java.util.Random;
 import javafx.scene.paint.Color;
-import java.util.ArrayList;
 
 /**
  * Luokassa on jokaisen palikan tiedot kuten koordinaatit ja palikan kääntäminen.
@@ -45,17 +44,17 @@ public class Tetromino {
      */
     Color getColor(int level, int value) {
         if (level < 3) {
-            colors = new Color[]{Color.web("0x29C343"), Color.web("0xF6FFFF"), Color.web("0x48F62D"), Color.web("0x3752FF"), Color.web("0x48F62D"), Color.web("0x3752FF"), Color.web("0xF6FFFF"), Color.web("0xF6FFFF")};
+            colors = new Color[]{Color.web("0x3752FF"), Color.web("0xF6FFFF"), Color.web("0x48F62D"), Color.web("0x3752FF"), Color.web("0x48F62D"), Color.web("0x3752FF"), Color.web("0xF6FFFF"), Color.web("0xF6FFFF")};
         } else if (level < 5) {
-            colors = new Color[]{Color.web("0x781E98"), Color.web("0xF6FFFF"), Color.web("0xFFB7FB"), Color.web("0xA824D8"), Color.web("0xFFB7FB"), Color.web("0xA824D8"), Color.web("0xF6FFFF"), Color.web("0xF6FFFF")};
+            colors = new Color[]{Color.web("0xA824D8"), Color.web("0xF6FFFF"), Color.web("0xFFB7FB"), Color.web("0xA824D8"), Color.web("0xFFB7FB"), Color.web("0xA824D8"), Color.web("0xF6FFFF"), Color.web("0xF6FFFF")};
         } else if (level < 8) {
-            colors = new Color[]{Color.web("0x5FD1A0"), Color.web("0xF6FFFF"), Color.web("0xA2A2FF"), Color.web("0x74FFC3"), Color.web("0xA2A2FF"), Color.web("0x74FFC3"), Color.web("0xF6FFFF"), Color.web("0xF6FFFF")};
+            colors = new Color[]{Color.web("0x74FFC3"), Color.web("0xF6FFFF"), Color.web("0xA2A2FF"), Color.web("0x74FFC3"), Color.web("0xA2A2FF"), Color.web("0x74FFC3"), Color.web("0xF6FFFF"), Color.web("0xF6FFFF")};
         }  else if (level < 10) {
-            colors = new Color[]{Color.web("0x1E25F2"), Color.web("0xF6FFFF"), Color.web("0xB61B1B"), Color.web("0x333AFF"), Color.web("0xB61B1B"), Color.web("0x333AFF"), Color.web("0xF6FFFF"), Color.web("0xF6FFFF")};
+            colors = new Color[]{Color.web("0x333AFF"), Color.web("0xF6FFFF"), Color.web("0xB61B1B"), Color.web("0x333AFF"), Color.web("0xB61B1B"), Color.web("0x333AFF"), Color.web("0xF6FFFF"), Color.web("0xF6FFFF")};
         } else if (level < 12) {
-            colors = new Color[]{Color.web("0XE50101"), Color.web("0xF6FFFF"), Color.web("0xFFCC33"), Color.web("0xB61B1B"), Color.web("0xFFCC33"), Color.web("0xB61B1B"), Color.web("0xF6FFFF"), Color.web("0xF6FFFF")};
+            colors = new Color[]{Color.web("0xB61B1B"), Color.web("0xF6FFFF"), Color.web("0xFFCC33"), Color.web("0xB61B1B"), Color.web("0xFFCC33"), Color.web("0xB61B1B"), Color.web("0xF6FFFF"), Color.web("0xF6FFFF")};
         } else {
-            colors = new Color[]{Color.web("0x3744F7"), Color.web("0xF6FFFF"), Color.web("0xA6FAFF"), Color.web("0x3A41FF"), Color.web("0xA6FAFF"), Color.web("0x3A41FF"), Color.web("0xF6FFFF"), Color.web("0xF6FFFF")};
+            colors = new Color[]{Color.web("0x3A41FF"), Color.web("0xF6FFFF"), Color.web("0xA6FAFF"), Color.web("0x3A41FF"), Color.web("0xA6FAFF"), Color.web("0x3A41FF"), Color.web("0xF6FFFF"), Color.web("0xF6FFFF")};
         }
         return colors[value];
     }

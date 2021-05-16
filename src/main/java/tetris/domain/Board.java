@@ -2,7 +2,6 @@
 package tetris.domain;
 
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import java.util.Random;
@@ -21,8 +20,8 @@ public class Board {
     int widthSquares = 10;
     int heightSquares = 20;
     
-    int widthPX = squareWidth * widthSquares + 2;
-    int heightPX = squareWidth * heightSquares + 2;
+    int widthPX;
+    int heightPX;
     
     Pane pane;
     
@@ -35,9 +34,11 @@ public class Board {
     
     CurrentPiece current;
     
+    
     int score;
     int level;
     int lines;
+    int startLevel;
     boolean end;
     boolean check;
     
@@ -45,18 +46,25 @@ public class Board {
     int holdPiece;
     boolean canSwapHold;
     
-    public Board() { 
+    public Board(int startLevel, boolean thin) { 
+        
+        if (thin) {
+            widthSquares = 4;
+        }
+    
+        widthPX = squareWidth * widthSquares + 2;
+        heightPX = squareWidth * heightSquares + 2;
         
         pane = new Pane();
         pane.setPrefSize(widthPX, heightPX);
         pane.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
-        spots = new int[widthSquares + 8][heightSquares + 6];
+        spots = new int[18][26];
         placed = new ArrayList<>();
         
         // annetaan pelialueen ulkopuolella oleville koordinaateille arvot 1.
         for (int x = 0; x < 18; x++) {
             for (int y = 25; y > -1; y--) {
-                if (x < 4 || x > 13 || y > 23) {
+                if (x < 4 || x > 3 + widthSquares || y > heightSquares + 3) {
                     spots[x][y] = 1;
                 }
             }
@@ -71,12 +79,28 @@ public class Board {
         holdPiece = 0;
         canSwapHold = true;
         
-        score = 0;
-        level = 1;
+        this.startLevel = startLevel;
+        score = startingScore(startLevel);
+        level = startLevel;
         lines = 0;
         end = false;
         
         current = new CurrentPiece(this);
+    }
+    
+    int startingScore(int startLevel) {
+        switch (startLevel) {
+            case 12:
+                return 80000;
+            case 9:
+                return 40000;
+            case 6:
+                return 20000;
+            case 3:
+                return 5000;
+            default:
+                return 0;
+        }
     }
     
     void newPiece(boolean hold, int pieceValue) {
@@ -229,7 +253,7 @@ public class Board {
                 score += 800 * level;
                 break;
         }
-        if (lines >= level * 8) {
+        if (lines >= level * 10 - ((startLevel - 1) * 10)) {
             level++;
             reColorPlaced();
         } 

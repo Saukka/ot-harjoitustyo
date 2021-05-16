@@ -26,7 +26,7 @@ import tetris.domain.Tetris;
 public class GameUI {
     
     
-    public void start(Stage window, ArrayList<KeyCode> keys) {
+    public void start(Stage window, ArrayList<KeyCode> keys, int startLevel, boolean thin) {
 
         Rectangle nextBox = new Rectangle(0, 56, 168, 112);
         nextBox.setArcHeight(22);
@@ -92,7 +92,7 @@ public class GameUI {
         window.show();
         
         Tetris tetris = new Tetris(window, scene, view, left, right, pauseScreen, pauseButton, continueButton);
-        tetris.start(keys, score, lines, level);
+        tetris.start(keys, startLevel, score, lines, level, thin);
     }
     
 }

@@ -25,7 +25,7 @@ public class BoardTest {
     
     @Test
     public void droppedPieceAddedToList() {
-        board = new Board();
+        board = new Board(1, false);
         board.newPiece(false, board.nextPiece);
         board.current.hardDrop();
         assertEquals(4, board.placed.size());
@@ -34,7 +34,7 @@ public class BoardTest {
     
     @Test
     public void scoreIncreases() {
-        board = new Board();
+        board = new Board(1, false);
         board.newPiece(false, board.nextPiece);
         board.current.hardDrop();
         assertTrue(board.score > 30);
@@ -42,7 +42,7 @@ public class BoardTest {
     
     @Test
     public void holdPieceWorks() {
-        board = new Board();
+        board = new Board(1, false);
         board.newPiece(false, board.nextPiece);
         board.swapHold();
         int holdPiece = board.holdPiece;
@@ -53,7 +53,7 @@ public class BoardTest {
     
     @Test
     public void movingPieceWorks() {
-        board = new Board();
+        board = new Board(1, false);
         board.newPiece(false, board.nextPiece);
         CurrentPiece piece = board.current;
         int xCoordinate = piece.x;

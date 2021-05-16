@@ -42,7 +42,7 @@ public class Tetris {
         this.pauseScreen = pauseScreen;
     }
     
-    public void start(ArrayList<KeyCode> keys, Text score, Text lines, Text level) {
+    public void start(ArrayList<KeyCode> keys, int startLevel, Text score, Text lines, Text level, boolean thin) {
         
         Map<KeyCode, Boolean> movementButtons = new HashMap<>();
         Map<KeyCode, Boolean> otherButtons = new HashMap<>();
@@ -78,7 +78,7 @@ public class Tetris {
             }
         });
         
-        Board board = new Board();
+        Board board = new Board(startLevel, thin);
         view.setCenter(board.pane);
         
         board.newPiece(false, board.nextPiece);
@@ -106,14 +106,14 @@ public class Tetris {
             int accelerationTimes = 2;
             boolean accelerationLeft = false;
             boolean accelerationRight = false;
-            boolean accelerationOther = false;
+            boolean accelerationRotate = false;
             boolean accelerationDrop = false;
             
             // seuraavien muuttujien avulla pelaajalle annetaan hieman aikaa liikuttaa palikkaa kun palikan alla ei ole tilaa
             boolean place = false;
-            float extraTimeClock = 0;
+            double extraTimeClock = 0;
             boolean timeStarted = false;
-            int times = 4;
+            int times = 8;
 
             @Override
             public void handle(long time) {
@@ -124,7 +124,7 @@ public class Tetris {
                 } 
                 
                 if (Collections.frequency(otherButtons.values(), true) == 0) {
-                    accelerationOther = false;
+                    accelerationRotate = false;
                 }
                 
                 if (movementButtons.getOrDefault(moveLeftK, false)) {
@@ -168,15 +168,15 @@ public class Tetris {
                     }
                 } 
                 
-                if ((otherButtons.getOrDefault(rotateLeftK, false)) && !accelerationOther) {
+                if ((otherButtons.getOrDefault(rotateLeftK, false)) && !accelerationRotate) {
                     piece.rotate(0);
                     giveTime();
-                    accelerationOther = true;
+                    accelerationRotate = true;
                 }
-                if ((otherButtons.getOrDefault(rotateRightK, false)) && !accelerationOther) {
+                if ((otherButtons.getOrDefault(rotateRightK, false)) && !accelerationRotate) {
                     piece.rotate(1);
                     giveTime();
-                    accelerationOther = true;
+                    accelerationRotate = true;
                 }
                 
                 if (hardDrop.get() == true && !accelerationDrop) {
@@ -192,8 +192,8 @@ public class Tetris {
                     view.setCenter(pauseScreen);
                 }); 
                 continueButton.setOnAction(e -> {
-                    start();
                     view.setCenter(board.pane);
+                    start();
                 });
                     
                 if ((otherButtons.getOrDefault(holdK, false))) {
@@ -230,7 +230,7 @@ public class Tetris {
                 
                 extraTimeClock++;
 
-                if (timeStarted && extraTimeClock > 60 - 3 * board.level) {
+                if (timeStarted && extraTimeClock > 25) {
                     place = true;
                 }
 
@@ -249,7 +249,9 @@ public class Tetris {
                 if (board.checkBelow(piece.y)) {
                     piece.moveDown(1, softDrop);
                     clock = 0;
-                    timeStarted = false;
+                    if (board.checkBelow(piece.y + 1)) {
+                        timeStarted = false;
+                    }
                 } else if (place) {
                     piece.moveDown(1, softDrop);
                     clock = 0;
@@ -258,12 +260,14 @@ public class Tetris {
                 } else if (!timeStarted) {
                     extraTimeClock = 0;
                     timeStarted = true;
-                    times = 3;
+                    times = 8;
                 }
             }
             public void giveTime() {
-                extraTimeClock -= times * 5;
-                times--;
+                if (times > 0) {
+                    extraTimeClock = 0.7 * board.level - times;
+                    times--;
+                }
             }
             
         }.start();
