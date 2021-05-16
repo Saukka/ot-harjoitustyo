@@ -26,4 +26,8 @@
 
 3.5 Palikoiden liikuttaminen paremmaksi ja nopeammaksi uudistamalla miten inputteja käsitellään 2h. Aloitusruutuun napit mistä käyttäjä voi valita käyttämänsä näppäimet 2h. 
 
-yhteensä: 58h
+15.5 Palikoille uusi tyyli, pelin ulkoasulle luokka 5h
+
+16.5 Pelin pausettaminen, ennätyspisteet, aloitustaso, pelimuoto 10h
+
+yhteensä: 73h
