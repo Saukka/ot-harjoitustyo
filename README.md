@@ -18,7 +18,7 @@ Ladattuasi projektin lähdekoodin, siirrä tiedosto Tetris-1.0-SNAPSHOT.jar proj
 Ohjelman voi suorittaa komennolla
 
 ```
-mvn compile exec:java -Dexec.mainClass=tetris.ui.UserInterface
+mvn compile exec:java -Dexec.mainClass=tetris.ui.MenuUI
 ```
 
 Sovelluksen testit voi suorittaa komennolla 
