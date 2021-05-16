@@ -16,9 +16,9 @@ import static org.junit.Assert.*;
  *
  * @author saulisorvari
  */
-public class BoardTest {
+public class BoardAndPieceTest {
     
-    public BoardTest() {
+    public BoardAndPieceTest() {
     }
     
     Board board;
