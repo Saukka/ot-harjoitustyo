@@ -178,7 +178,7 @@ public class MenuUI extends Application {
             window.setScene(highScores);
         });
         
-        Map<Integer, String> top5 = scores.getTop5();
+        Map<Integer, String> top5 = scores.getScores();
         int i = 1;
         for (Entry<Integer, String> score: top5.entrySet()) {
             if (i == 6) {

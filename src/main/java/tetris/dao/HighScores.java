@@ -28,7 +28,7 @@ public class HighScores {
             writer.close();
         }
     }
-    public Map<Integer,String> getTop5() throws IOException {
+    public Map<Integer,String> getScores() throws IOException {
         Map<Integer,String> top5 = new TreeMap<Integer,String>(new Comparator<Integer>() {
             @Override
             public int compare(Integer v1, Integer v2) {
