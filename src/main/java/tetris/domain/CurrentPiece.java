@@ -4,6 +4,10 @@ package tetris.domain;
 
 import javafx.scene.shape.Rectangle;
 
+/**
+ * Luokka ohjattavalle palikalle.
+ */
+
 public class CurrentPiece {
     
     int x;
@@ -16,6 +20,8 @@ public class CurrentPiece {
     Rectangle[] ghostSquare;
     
     Board board;
+    
+    
     
     public CurrentPiece(Board board) {
         this.board = board;
@@ -31,6 +37,10 @@ public class CurrentPiece {
         }
     }
     
+    /**
+     * Metodi liikuttaa palikkaa jos sitä on mahdollista liikuttaa.
+     * @param move -1 jos vasemmalle, 1 jos oikealle
+     */
     
     void moveVertical(int move) {
         if (board.checkVertical(move)) {
@@ -41,6 +51,10 @@ public class CurrentPiece {
             updateGhost();
         }
     }
+    
+    /**
+     * Metodi päivittää haamupalikan sijainnin ja värin.
+     */
     
     void updateGhost() {
         int ghostY = y;
@@ -55,6 +69,10 @@ public class CurrentPiece {
         }
     }
     
+    /**
+     * Metodi kääntää palikkaa, jos kääntäminen on mahdollista.
+     * @param right 1 jos käännetään oikealle.
+     */
     void rotate(int right) {
         if (piece.shape.ordinal() == 1) {
             return;
@@ -80,6 +98,11 @@ public class CurrentPiece {
         } 
     }
     
+    /**
+     * Metodi liikuttaa palikkaa alaspäin. Jos palikkaa ei voida liikuttaa alaspäin, palikka asetetaan.
+     * @param squares kuinka monta ruutua alaspäin palikkaa liikutetaan.
+     * @param softDrop onko kyseessä softdrop.
+     */
     void moveDown(int squares, boolean softDrop) {
         if (squares == 1 && !board.checkBelow(y)) {
             board.place();

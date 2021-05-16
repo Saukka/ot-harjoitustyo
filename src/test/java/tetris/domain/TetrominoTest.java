@@ -1,5 +1,6 @@
 package tetris.domain;
 
+import java.util.Arrays;
 import javafx.scene.paint.Color;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -24,7 +25,7 @@ public class TetrominoTest {
         tetromino.setRandomShape();
         int[][] coords = tetromino.getCoords();
         int[][] rotatedCoords = tetromino.rotateLeft();
-        assertFalse(coords.equals(rotatedCoords));
+        assertFalse(Arrays.equals(coords, rotatedCoords));
     }
     
     @Test
@@ -51,6 +52,14 @@ public class TetrominoTest {
     public void returnsCorrectColorAndStroke() {
         tetromino = new Tetromino();
         assertEquals(Color.web("0xA2A2FF"), tetromino.getColor(5, 2));
-        assertEquals(Color.web("0XE50101"), tetromino.getColor(11, 0));
+        assertEquals(Color.web("0xB61B1B"), tetromino.getColor(11, 0));
+    }
+    
+    @Test
+    public void settingShapeWorks() {
+        tetromino = new Tetromino();
+        tetromino.setCurrentShape(SHAPE.SQUARE);
+        assertEquals(2, tetromino.height());
+        assertEquals(2, tetromino.width());
     }
 }

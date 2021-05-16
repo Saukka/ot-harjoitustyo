@@ -68,4 +68,21 @@ public class BoardAndPieceTest {
         piece.moveDown(1, true);
         assertEquals(yCoordinate + 2, piece.y);
     }
+    
+    @Test
+    public void rotatingWorks() {
+        board = new Board(1, false);
+        board.newPiece(false, 4);
+        CurrentPiece piece = board.current;
+        int[][] coordinates = piece.piece.getCoords();
+        piece.rotate(1);
+        assertFalse(coordinates == piece.piece.getCoords());
+    }
+    
+    @Test
+    public void drawMethodDraws() {
+        board = new Board(3, false);
+        board.newPiece(false, 5);
+        assertEquals(4 + 4 * 4, board.pane.getChildren().size());
+    }
 }

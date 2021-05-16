@@ -20,8 +20,9 @@ import tetris.dao.HighScores;
 import tetris.domain.Tetromino.SHAPE;
 
 /**
- * Luokassa asetetaan peliin kuuluvat ulkoasu-komponentit jotka vaihtelevat peliä pelatessa. Luokka sisältää AnimationTimerin, jossa käsitellään käyttäjän inputit.
+ * Luokassa käsitellään käyttäjän inputit AnimationTimerilla ja pidetään ulkoasun komponentit ajan tasalla
  */
+
 public class Tetris {
     
     Stage window;
@@ -107,7 +108,7 @@ public class Tetris {
             
             // seuraavien muuttujien avulla katsotaan, pidetäänkö näppäintä pohjassa
             int accelerationClock = 0;
-            int accelerationTimes = 2;
+            int accelerationTimes = 4;
             boolean accelerationLeft = false;
             boolean accelerationRight = false;
             boolean accelerationRotate = false;

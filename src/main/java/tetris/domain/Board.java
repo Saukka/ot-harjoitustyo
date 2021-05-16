@@ -12,8 +12,9 @@ import javafx.scene.layout.CornerRadii;
 import tetris.domain.Tetromino.SHAPE;
 
 /**
- * Luokka hoitaa kaikki pelialueella tapahtuvat asiat, kuten peliruutujen tilat ja palikan liikuttamisen.
+ * Luokka hoitaa pelialueen tilanteen.
  */
+
 public class Board {
     
     final int squareWidth = 30;
@@ -33,7 +34,6 @@ public class Board {
     ArrayList<Integer> pieceBag;
     
     CurrentPiece current;
-    
     
     int score;
     int level;
@@ -103,6 +103,12 @@ public class Board {
         }
     }
     
+    /**
+     * Metodi luo uuden palikan
+     * @param hold onko kyseessä hold-palikan vaihto
+     * @param pieceValue luotavan palikan arvo
+     */
+    
     void newPiece(boolean hold, int pieceValue) {
         current.piece.setCurrentShape(SHAPE.values()[pieceValue]);
         
@@ -125,6 +131,7 @@ public class Board {
      * @param piece piirrettävä palikka
      * @param pane pane johon palikka piirretään
      */
+    
     void drawPiece(double x, double y, Tetromino piece, Square[] square, Pane pane) {
         
         for (int i = 0; i < 4; i++) {
@@ -138,9 +145,10 @@ public class Board {
     }
     
     /**
-     * Metodi asettaa palikan peliruudulle. 
+     * Metodi asettaa palikan peliruuduille. 
      * Jos palikkaa ei saada asetettua pelialueen sisälle, peli loppuu.
      */
+    
     void place() {
         boolean endGame = true;
         for (int i = 0; i < 4; i++) {
@@ -156,19 +164,23 @@ public class Board {
         clearLines();
         newPiece(false, nextPiece);
     }
+    
     /**
      * Tason vaihtuessa metodi uudelleenvärittää asetetut palikat.
      */
+    
     void reColorPlaced() {
         for (int i = 0; i < placed.size(); i++) {
             placed.get(i).reColor(level);
         }
     }
+    
     /**
      * Pussi-menetelmää käyttävä metodi, joka antaa seuraavan palikan.
      * Pussissa on jokaista palikkaa yksi, ja ne annetaan satunnaisessa järjestyksessä. Pussin tyhjennettyä se täytetään uudelleen.
      * @return seuraava palikka
      */
+    
     int getNextPiece() {
         int random = new Random().nextInt(pieceBag.size());
         int piece = pieceBag.get(random);
@@ -180,6 +192,10 @@ public class Board {
         }
         return piece;
     }
+    
+    /**
+     * Metodi vaihtaa hold-palikan ja nykyisen palikan keskenään. Jos hold-palikkaa ei ole, metodi asettaa nykyisen palikan hold-palikaksi.
+     */
     
     void swapHold() {
         if (holdPiece == 0) {
@@ -196,10 +212,12 @@ public class Board {
         }
         
     }
+    
     /**
      * Metodi käy jokaisen rivin läpi ja katsoo, onko rivi täynnä. Jos rivi on täynnä, rivi sorrutetaan ja yllä olevia rivejä tuodaan alaspäin.
      * Mahdollisten rivien sorruttamisien jälkeen sorruttamisesta annetaan pisteet.
      */
+    
     void clearLines() {
         int cleared  = 0;
         for (int i = 23; i > 3; i--) {
@@ -264,6 +282,7 @@ public class Board {
      * @param coordinates tarkistettavat koordinaatit.
      * @return vastaus voiko palikkaa kääntää, ja minne se käännetään. Jos palikkaa ei voi kääntää, return = -1
      */
+    
     int checkRotate(int[][] coordinates) {
         int answer = 0;
         for (int i = 0; i < 4; i++) {
@@ -284,7 +303,12 @@ public class Board {
         return answer;
     }
     
-    // move = -1 kun tarkastetaan vasemmalle liikkuminen ja 1 kun oikealle.
+    /**
+     * Metodi tarkastaa voiko palikkaa liikuttaa.
+     * @param move -1 jos palikkaa liikutetaan vasemmalle, 1 jos oikealle.
+     * @return 
+     */
+    
     boolean checkVertical(int move) {
         for (int i = 0; i < 4; i++) {
             if (spots[current.piece.getCoords()[i][0] + current.x + move][current.piece.getCoords()[i][1] + current.y] == 1) {
@@ -293,6 +317,12 @@ public class Board {
         }
         return true;
     }
+    
+    /** 
+     * Metodi tarkastaa onko alapuolella vapaata.
+     * @param y korkeus jolla tarkastus tehdään
+     * @return true jos alapuolella on vapaata.
+     */
     
     boolean checkBelow(int y) {
         for (int i = 0; i < 4; i++) {
