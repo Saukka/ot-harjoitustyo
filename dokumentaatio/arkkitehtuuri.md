@@ -20,7 +20,7 @@ Tetromino-luokassa on eri palikoiden ominaisuudet kuten koordinaatit ja värit.
 
 Pääluokkien päätoiminnallisuudet, mihin pelin pelaaminen perustuu ja miten se toimii:
 
-<img width="600" alt="Näyttökuva 2021-5-17 kello 2 12 52" src="https://user-images.githubusercontent.com/80990021/118416078-9b418e80-b6b6-11eb-889a-2b2696687009.png">
+<img width="600" alt="Päätoiminnallisuudet" src="https://user-images.githubusercontent.com/80990021/118416078-9b418e80-b6b6-11eb-889a-2b2696687009.png">
 
 
 ### Heikkoudet
