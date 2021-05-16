@@ -49,7 +49,6 @@ public class MenuUI extends Application {
         levelButton.setMinSize(80, 20);
         levelButton.relocate(300, 450);
         
-        
         levelButton.setOnAction(e -> {
             int lv = Integer.valueOf(levelButton.getText());
             if (lv == 1) {
@@ -65,7 +64,7 @@ public class MenuUI extends Application {
         
         
         Button gameMode = new Button("normal");
-        gameMode.relocate(630, 450);
+        gameMode.relocate(400, 450);
         
         gameMode.setOnAction(e -> {
             if (gameMode.getText().equals("normal")) {
@@ -152,7 +151,7 @@ public class MenuUI extends Application {
         
         window.show();  
         
-        // Highscoret ->
+        // Highscore-näkymä ->
         
         Button showScores = new Button("High scores");
         showScores.relocate(100, 495);

@@ -9,7 +9,7 @@ import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
-import tetris.domain.Tetromino.shape;
+import tetris.domain.Tetromino.SHAPE;
 
 /**
  * Luokka hoitaa kaikki pelialueella tapahtuvat asiat, kuten peliruutujen tilat ja palikan liikuttamisen.
@@ -104,7 +104,7 @@ public class Board {
     }
     
     void newPiece(boolean hold, int pieceValue) {
-        current.piece.setCurrentShape(shape.values()[pieceValue]);
+        current.piece.setCurrentShape(SHAPE.values()[pieceValue]);
         
         current.x = widthSquares / 2 + 3;
         current.y = 3;

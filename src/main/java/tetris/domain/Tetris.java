@@ -16,10 +16,8 @@ import tetris.ui.MenuUI;
 import java.util.Collections;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import tetris.dao.HighScores;
-import tetris.domain.Tetromino.shape;
+import tetris.domain.Tetromino.SHAPE;
 
 /**
  * Luokassa asetetaan peliin kuuluvat ulkoasu-komponentit jotka vaihtelevat peliä pelatessa. Luokka sisältää AnimationTimerin, jossa käsitellään käyttäjän inputit.
@@ -95,15 +93,15 @@ public class Tetris {
         Square[] squareHold = new Square[4];
         
         Tetromino next = new Tetromino();
-        next.setCurrentShape(shape.values()[board.nextPiece]);
+        next.setCurrentShape(SHAPE.values()[board.nextPiece]);
         board.drawPiece(3 - next.minX() - ((double) next.width() / 2) , 3 - next.minY() - ((double) next.height() / 2), next, squareNext, right);
         
         Tetromino hold = new Tetromino();
-        hold.setCurrentShape(shape.values()[board.holdPiece]);
+        hold.setCurrentShape(SHAPE.values()[board.holdPiece]);
         
         MenuUI ui = new MenuUI();
         
-        new AnimationTimer(){
+        new AnimationTimer() {
             
             float clock = 0;
             
@@ -205,19 +203,19 @@ public class Tetris {
                 if ((otherButtons.getOrDefault(holdK, false))) {
                     if (board.holdPiece == 0) {
                         board.swapHold();
-                        hold.setCurrentShape(shape.values()[board.holdPiece]);
+                        hold.setCurrentShape(SHAPE.values()[board.holdPiece]);
                         board.drawPiece(4 - hold.minX() - ((double) hold.width() / 2) , 4 - hold.minY() - ((double) hold.height() / 2), hold, squareHold, left);
                     } else if (board.canSwapHold) {
                         board.swapHold();
                         left.getChildren().remove(4, (5 * 4));
-                        hold.setCurrentShape(shape.values()[board.holdPiece]);
+                        hold.setCurrentShape(SHAPE.values()[board.holdPiece]);
                         board.drawPiece(4 - hold.minX() - ((double) hold.width() / 2) , 4 - hold.minY() - ((double) hold.height() / 2), hold, squareHold, left);
                     }
                 }
                 
                 if (board.nextPiece != piece.piece.shape.ordinal()) {
                     right.getChildren().remove(2, 2 + (4 * 4));
-                    next.setCurrentShape(shape.values()[board.nextPiece]);
+                    next.setCurrentShape(SHAPE.values()[board.nextPiece]);
                     board.drawPiece(3 - next.minX() - ((double) next.width() / 2) , 4 - next.minY() - ((double) next.height() / 2), next, squareNext, right);
                 }
 
@@ -235,7 +233,7 @@ public class Tetris {
                         }
                     });
                     try {
-                       scores.addScore(board.score, thin); 
+                        scores.addScore(board.score, thin); 
                     } catch (Exception e) {
                         
                     }

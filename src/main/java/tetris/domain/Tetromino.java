@@ -13,7 +13,7 @@ public class Tetromino {
     Color[] colors;
     
     // Palikoiden nimet	
-    enum shape {
+    enum SHAPE {
         EMPTY, SQUARE, SPIECE, MIRRORSPIECE, LPIECE, MIRRORLPIECE, TPIECE, IPIECE
     }	   
     
@@ -28,7 +28,7 @@ public class Tetromino {
         {{-1, 0}, {0, 0}, {1, 0}, {0, -1}}, // TPiece		
         {{-1, 0}, {0, 0}, {1, 0}, {2, 0}} // IPiece
     };
-    shape shape;
+    SHAPE shape;
     private int[][] coords;
     
     public Tetromino() {
@@ -60,7 +60,7 @@ public class Tetromino {
     }
     
     
-    void setCurrentShape(shape piece) {
+    void setCurrentShape(SHAPE piece) {
         for (int i = 0; i < 4; i++) {
             System.arraycopy(pieces[piece.ordinal()], 0, coords, 0, 4);
         }
@@ -68,7 +68,7 @@ public class Tetromino {
     }
     
     void setRandomShape() {
-        shape[] pieceValues = shape.values();
+        SHAPE[] pieceValues = shape.values();
         setCurrentShape(pieceValues[new Random().nextInt(7) + 1]);
     }
     

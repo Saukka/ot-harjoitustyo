@@ -22,7 +22,7 @@ public class PlacedRectangle {
         
     }
     
-     void reColor(int level) {
+    void reColor(int level) {
         square.setColor(tetromino.getColor(level, pieceValue));
         if (pieceValue == 1 || pieceValue > 5) {
             square.setStroke(tetromino.getColor(level, 0));

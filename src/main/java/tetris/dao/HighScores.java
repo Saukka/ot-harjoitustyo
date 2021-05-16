@@ -28,8 +28,8 @@ public class HighScores {
             writer.close();
         }
     }
-    public Map<Integer,String> getScores() throws IOException {
-        Map<Integer,String> top5 = new TreeMap<Integer,String>(new Comparator<Integer>() {
+    public Map<Integer, String> getScores() throws IOException {
+        Map<Integer, String> top5 = new TreeMap<Integer, String>(new Comparator<Integer>() {
             @Override
             public int compare(Integer v1, Integer v2) {
                 return v2.compareTo(v1);

@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import tetris.domain.Tetromino.shape;
+import tetris.domain.Tetromino.SHAPE;
 
 
 
@@ -42,7 +42,7 @@ public class TetrominoTest {
     @Test
     public void rotatedIPieceHeightIsFour() {
         tetromino = new Tetromino();
-        tetromino.setCurrentShape(shape.IPIECE);
+        tetromino.setCurrentShape(SHAPE.IPIECE);
         tetromino.setCoords(tetromino.rotateLeft());
         assertEquals(4, tetromino.height());
     }
