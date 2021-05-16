@@ -20,13 +20,14 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import tetris.dao.HighScores;
 import tetris.domain.Tetris;
 
 
 public class GameUI {
     
     
-    public void start(Stage window, ArrayList<KeyCode> keys, int startLevel, boolean thin) {
+    public void start(Stage window, ArrayList<KeyCode> keys, int startLevel, boolean thin, HighScores scores) {
 
         Rectangle nextBox = new Rectangle(0, 56, 168, 112);
         nextBox.setArcHeight(22);
@@ -91,7 +92,7 @@ public class GameUI {
         window.setScene(scene);
         window.show();
         
-        Tetris tetris = new Tetris(window, scene, view, left, right, pauseScreen, pauseButton, continueButton);
+        Tetris tetris = new Tetris(window, scene, view, left, right, pauseScreen, pauseButton, continueButton, scores);
         tetris.start(keys, startLevel, score, lines, level, thin);
     }
     

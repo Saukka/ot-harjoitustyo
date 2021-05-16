@@ -15,6 +15,7 @@ import tetris.ui.MenuUI;
 import java.util.Collections;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.ArrayList;
+import tetris.dao.HighScores;
 import tetris.domain.Tetromino.shape;
 
 /**
@@ -30,8 +31,9 @@ public class Tetris {
     Pane pauseScreen;
     Button pauseButton;
     Button continueButton;
+    HighScores scores;
     
-    public Tetris(Stage window, Scene scene, BorderPane view, Pane left, Pane right, Pane pauseScreen, Button pauseButton, Button continueButton) {
+    public Tetris(Stage window, Scene scene, BorderPane view, Pane left, Pane right, Pane pauseScreen, Button pauseButton, Button continueButton, HighScores scores) {
         this.window = window;
         this.scene = scene;
         this.view = view;
@@ -40,6 +42,7 @@ public class Tetris {
         this.pauseButton = pauseButton;
         this.continueButton = continueButton;
         this.pauseScreen = pauseScreen;
+        this.scores = scores;
     }
     
     public void start(ArrayList<KeyCode> keys, int startLevel, Text score, Text lines, Text level, boolean thin) {
@@ -224,8 +227,14 @@ public class Tetris {
                     left.getChildren().add(menu);
                     menu.setOnAction(e-> {
                         ui.start(window);
-                    }); 
+                    });
+                    try {
+                       scores.addScore(board.score, thin); 
+                    } catch (Exception e) {
+                        
+                    }
                     stop();
+                    
                 }
                 
                 extraTimeClock++;

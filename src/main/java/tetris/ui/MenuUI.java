@@ -1,21 +1,28 @@
 
 package tetris.ui;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Map.Entry;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.Label;
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import tetris.dao.HighScores;
 
 
 public class MenuUI extends Application {
     
     @Override
-    public void start(Stage window) {
+    public void start(Stage window) throws IOException {
         
         window.setTitle("Tetris");
         
@@ -131,6 +138,8 @@ public class MenuUI extends Application {
             });
         });
         
+        HighScores scores = new HighScores();
+        
         GameUI gameUI = new GameUI();
         
         startButton.setOnAction(e-> {
@@ -138,10 +147,66 @@ public class MenuUI extends Application {
             if (gameMode.getText().equals("thin")) {
                 thin = true;
             }
-            gameUI.start(window, keys, Integer.valueOf(levelButton.getText()), thin);
+            gameUI.start(window, keys, Integer.valueOf(levelButton.getText()), thin, scores);
         });
         
-        window.show();   
+        window.show();  
+        
+        // Highscoret ->
+        
+        Button showScores = new Button("High scores");
+        showScores.relocate(100, 495);
+        setUp.getChildren().add(showScores);
+        
+        Pane scorePane = new Pane();
+        
+        Text highScoresText = new Text("HIGH SCORES");
+        highScoresText.setFont(Font.font("Silom", 30));
+        highScoresText.relocate(260, 160);
+        scorePane.getChildren().add(highScoresText);
+        
+        Button menuButton = new Button("Menu");
+        menuButton.relocate(115, 495);
+        scorePane.getChildren().add(menuButton);
+        menuButton.setOnAction(e -> {
+            window.setScene(scene);
+        });
+        
+        Scene highScores = new Scene(scorePane, 722, 602);
+        
+        showScores.setOnAction(e -> {
+            window.setScene(highScores);
+        });
+        
+        Map<Integer, String> top5 = scores.getTop5();
+        int i = 1;
+        for (Entry<Integer, String> score: top5.entrySet()) {
+            if (i == 6) {
+                break;
+            }
+            Label l = new Label(String.valueOf(i));
+            l.setFont(Font.font("Silom", 15));
+            l.relocate(250, 200 + i * 25);
+            Label scoreText = new Label();
+            
+            String s = "";
+            if (score.getValue().equals("normal")) {
+                s = String.valueOf(score.getKey());
+                scoreText.setText(s);
+            } else {
+                Label thinLabel = new Label("thin");
+                thinLabel.setFont(Font.font("Silom", 16));
+                thinLabel.relocate(365, 200 + i * 25);
+                scorePane.getChildren().add(thinLabel);
+                s = String.valueOf(score.getKey());
+                scoreText.setText(s);
+            }
+            scoreText.setFont(Font.font("Silom", 16));
+            scoreText.relocate(420 + ((6-s.length()) * 11), 200 + i * 25);
+            scorePane.getChildren().addAll(scoreText, l);
+            i++;
+        }
+        
     }
     
     public static void main(String[] args) {
