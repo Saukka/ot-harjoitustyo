@@ -27,13 +27,19 @@ public class Tetris {
     BorderPane view;
     Pane left;
     Pane right;
+    Pane pauseScreen;
+    Button pauseButton;
+    Button continueButton;
     
-    public Tetris(Stage window, Scene scene, BorderPane view, Pane left, Pane right) {
+    public Tetris(Stage window, Scene scene, BorderPane view, Pane left, Pane right, Pane pauseScreen, Button pauseButton, Button continueButton) {
         this.window = window;
         this.scene = scene;
         this.view = view;
         this.left = left;
         this.right = right;
+        this.pauseButton = pauseButton;
+        this.continueButton = continueButton;
+        this.pauseScreen = pauseScreen;
     }
     
     public void start(ArrayList<KeyCode> keys, Text score, Text lines, Text level) {
@@ -91,8 +97,8 @@ public class Tetris {
         
         MenuUI ui = new MenuUI();
         
-        new AnimationTimer() {
-
+        new AnimationTimer(){
+            
             float clock = 0;
             
             // seuraavien muuttujien avulla katsotaan, pidetäänkö näppäintä pohjassa
@@ -159,7 +165,7 @@ public class Tetris {
                     if (accelerationClock > accelerationTimes * 2) {
                         accelerationTimes++;
                         movePieceDown(true);
-                    }   
+                    }
                 } 
                 
                 if ((otherButtons.getOrDefault(rotateLeftK, false)) && !accelerationOther) {
@@ -174,12 +180,21 @@ public class Tetris {
                 }
                 
                 if (hardDrop.get() == true && !accelerationDrop) {
-                        piece.hardDrop();
-                        accelerationDrop = true;
+                    piece.hardDrop();
+                    accelerationDrop = true;
                 } 
                 if (hardDrop.get() == false) {
                     accelerationDrop = false;
                 }
+                
+                pauseButton.setOnAction(e -> {
+                    stop();
+                    view.setCenter(pauseScreen);
+                }); 
+                continueButton.setOnAction(e -> {
+                    start();
+                    view.setCenter(board.pane);
+                });
                     
                 if ((otherButtons.getOrDefault(holdK, false))) {
                     if (board.holdPiece == 0) {
@@ -195,18 +210,18 @@ public class Tetris {
                 }
                 
                 if (board.nextPiece != piece.piece.shape.ordinal()) {
-                    right.getChildren().remove(1, 1 + (4 * 4));
+                    right.getChildren().remove(2, 2 + (4 * 4));
                     next.setCurrentShape(shape.values()[board.nextPiece]);
                     board.drawPiece(3 - next.minX() - ((double) next.width() / 2) , 4 - next.minY() - ((double) next.height() / 2), next, squareNext, right);
                 }
 
                 if (board.end) {
+                    pauseButton.setVisible(false);
                     Button menu = new Button("Main menu");
                     menu.setFocusTraversable(false);
                     menu.setLayoutX(45);
                     menu.setLayoutY(465);
                     left.getChildren().add(menu);
-
                     menu.setOnAction(e-> {
                         ui.start(window);
                     }); 
@@ -232,19 +247,19 @@ public class Tetris {
             
             public void movePieceDown(boolean softDrop) {
                 if (board.checkBelow(piece.y)) {
-                        piece.moveDown(1, softDrop);
-                        clock = 0;
-                        timeStarted = false;
-                    } else if (place) {
-                        piece.moveDown(1, softDrop);
-                        clock = 0;
-                        place = false;
-                        timeStarted = false;
-                    } else if (!timeStarted) {
-                        extraTimeClock = 0;
-                        timeStarted = true;
-                        times = 3;
-                    }
+                    piece.moveDown(1, softDrop);
+                    clock = 0;
+                    timeStarted = false;
+                } else if (place) {
+                    piece.moveDown(1, softDrop);
+                    clock = 0;
+                    place = false;
+                    timeStarted = false;
+                } else if (!timeStarted) {
+                    extraTimeClock = 0;
+                    timeStarted = true;
+                    times = 3;
+                }
             }
             public void giveTime() {
                 extraTimeClock -= times * 5;

@@ -8,6 +8,7 @@ package tetris.ui;
 import java.util.ArrayList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -50,16 +51,35 @@ public class GameUI {
         
         level.setTranslateX(28);
         level.setTranslateY(360);
-        level.setFont(Font.font("verdana", 20));
+        level.setFont(Font.font("Silom", 20));
         score.setTranslateX(28);
         score.setTranslateY(400);
-        score.setFont(Font.font("verdana", 20));
+        score.setFont(Font.font("Silom", 20));
         lines.setTranslateX(28);
         lines.setTranslateY(440);
-        lines.setFont(Font.font("verdana", 20));
+        lines.setFont(Font.font("Silom", 20));
         left.getChildren().add(score);
         left.getChildren().add(lines);
         left.getChildren().add(level);
+        
+        Button pauseButton = new Button();
+        pauseButton.setMinSize(50, 50);
+        pauseButton.relocate(20, 400);
+        pauseButton.setFocusTraversable(false);
+        right.getChildren().add(pauseButton);
+        
+        Pane pauseScreen = new Pane();
+        Text pauseText = new Text("Game is paused");
+        pauseText.setFont(Font.font("Rockwell", 20));
+        pauseText.relocate(67, 215);
+        pauseText.setFill(Color.WHITE);
+        Button continueButton = new Button("Continue");
+        continueButton.setMinSize(100, 40);
+        continueButton.relocate(60, 250);
+        continueButton.setFont(Font.font("Silom", 30));
+        continueButton.setFocusTraversable(false);
+        pauseScreen.getChildren().addAll(continueButton, pauseText);
+        pauseScreen.setBackground(new Background(new BackgroundFill(Color.web("0x16067d"), CornerRadii.EMPTY, Insets.EMPTY)));
         
         BorderPane view = new BorderPane();
         view.setBackground(new Background(new BackgroundFill(Color.web("0x8A2EA6"), CornerRadii.EMPTY, Insets.EMPTY)));
@@ -71,7 +91,7 @@ public class GameUI {
         window.setScene(scene);
         window.show();
         
-        Tetris tetris = new Tetris(window, scene, view, left, right);
+        Tetris tetris = new Tetris(window, scene, view, left, right, pauseScreen, pauseButton, continueButton);
         tetris.start(keys, score, lines, level);
     }
     

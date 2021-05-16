@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
+import javafx.scene.text.Font;
 
 
 public class MenuUI extends Application {
@@ -28,52 +29,53 @@ public class MenuUI extends Application {
         keys.add(KeyCode.RIGHT);
         
         Button startButton = new Button("Start");
-        startButton.setLayoutX(275);
+        startButton.setFont(Font.font("Silom", 20));
+        startButton.setMinSize(80, 20);
+        startButton.setLayoutX(300);
         startButton.setLayoutY(380);
         
-        
         Label rotate = new Label("Rotate");
-        rotate.relocate(126, 125);
+        rotate.relocate(186, 125);
         Button rotateLeft = new Button("Z");
-        rotateLeft.relocate(90, 150);
+        rotateLeft.relocate(150, 150);
         rotateLeft.setMinSize(50, 30);
 
         Label left2 = new Label("left");
-        left2.relocate(105, 182);
+        left2.relocate(165, 182);
         
         Button rotateRight = new Button("X");
         rotateRight.setMinSize(50, 30);
-        rotateRight.relocate(150, 150);
+        rotateRight.relocate(210, 150);
         Label right2 = new Label("right");
-        right2.relocate(162, 182);
+        right2.relocate(222, 182);
         
         Label holdLabel = new Label("Hold");
-        holdLabel.relocate(90, 295);
+        holdLabel.relocate(150, 295);
         Button hold = new Button("C");
-        hold.relocate(79, 263);
+        hold.relocate(139, 263);
         hold.setMinSize(50, 30);
         Label hardDropLabel = new Label("Hard Drop");
-        hardDropLabel.relocate(170, 295);
+        hardDropLabel.relocate(227, 295);
         Button hardDrop = new Button("Space");
         hardDrop.setMinSize(50, 30);
-        hardDrop.relocate(170, 263);
+        hardDrop.relocate(230, 263);
         
         Label move = new Label("Move");
-        move.relocate(352, 208);
+        move.relocate(492, 193);
         Button left = new Button("Left");
         Button right = new Button("Right");
         Button down = new Button("Down");
         left.setMinSize(50, 30);
         right.setMinSize(50, 30);
         down.setMinSize(50, 30);
-        left.relocate(292, 225);
-        right.relocate(398, 225);
-        down.relocate(345, 225);
+        left.relocate(432, 210);
+        right.relocate(538, 210);
+        down.relocate(485, 210);
        
         Pane setUp = new Pane();
         setUp.getChildren().addAll(startButton, rotate, rotateLeft, rotateRight, left2, right2, move, left, right, down, holdLabel, hold, hardDrop, hardDropLabel);
         
-        Scene scene = new Scene(setUp,600,560);
+        Scene scene = new Scene(setUp,722, 602);
         
         window.setScene(scene);
         

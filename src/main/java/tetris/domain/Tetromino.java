@@ -30,10 +30,10 @@ public class Tetromino {
         {{-1, 0}, {0, 0}, {1, 0}, {2, 0}} // IPiece
     };
     shape shape;
-    private int[][] currentCoords;
+    private int[][] coords;
     
     public Tetromino() {
-        currentCoords = new int[4][2];
+        coords = new int[4][2];
         setCurrentShape(shape.EMPTY);
     }
     
@@ -63,7 +63,7 @@ public class Tetromino {
     
     void setCurrentShape(shape piece) {
         for (int i = 0; i < 4; i++) {
-            System.arraycopy(pieces[piece.ordinal()], 0, currentCoords, 0, 4);
+            System.arraycopy(pieces[piece.ordinal()], 0, coords, 0, 4);
         }
         shape = piece;
     }
@@ -82,33 +82,33 @@ public class Tetromino {
     }
     
     int minY() {
-        int minY = currentCoords[0][1];
+        int minY = coords[0][1];
         
         for (int i = 1; i < 4; i++) {
-            if (currentCoords[i][1] < minY) {
-                minY = currentCoords[i][1];
+            if (coords[i][1] < minY) {
+                minY = coords[i][1];
             }
         }
         return minY;
     }
     
     int maxY() {
-        int maxY = currentCoords[0][1];
+        int maxY = coords[0][1];
         
         for (int i = 1; i < 4; i++) {
-            if (currentCoords[i][1] > maxY) {
-                maxY = currentCoords[i][1];
+            if (coords[i][1] > maxY) {
+                maxY = coords[i][1];
             }
         }
         return maxY;
     }
     
     int maxX() {
-        int maxX = currentCoords[0][0];
+        int maxX = coords[0][0];
         
         for (int i = 1; i < 4; i++) {
-            if (currentCoords[i][0] > maxX) {
-                maxX = currentCoords[i][0];
+            if (coords[i][0] > maxX) {
+                maxX = coords[i][0];
             }
         }
         return maxX;
@@ -116,28 +116,28 @@ public class Tetromino {
     }
     
     int minX() {
-        int minX = currentCoords[0][0];
+        int minX = coords[0][0];
         
         for (int i = 1; i < 4; i++) {
-            if (currentCoords[i][0] < minX) {
-                minX = currentCoords[i][0];
+            if (coords[i][0] < minX) {
+                minX = coords[i][0];
             }
         }
         return minX;
         
     }
     int[][] getCoords() {
-        return currentCoords;
+        return coords;
     }
     void setCoords(int [][] c) {
-        currentCoords = c;
+        coords = c;
     }
     
     int[][] rotateLeft() {
         int[][] newCoords = new int[4][2];
         for (int i = 0; i < 4; i++) {
-            newCoords[i][0] = currentCoords[i][1];
-            newCoords[i][1] = -currentCoords[i][0];
+            newCoords[i][0] = coords[i][1];
+            newCoords[i][1] = -coords[i][0];
         }
         return newCoords;
     }
@@ -145,8 +145,8 @@ public class Tetromino {
     int[][] rotateRight() {
         int[][] newCoords = new int[4][2];
         for (int i = 0; i < 4; i++) {
-            newCoords[i][0] = -currentCoords[i][1];
-            newCoords[i][1] = currentCoords[i][0];
+            newCoords[i][0] = -coords[i][1];
+            newCoords[i][1] = coords[i][0];
         }
         return newCoords;
     }

@@ -77,7 +77,6 @@ public class Board {
         end = false;
         
         current = new CurrentPiece(this);
-        
     }
     
     void newPiece(boolean hold, int pieceValue) {
@@ -213,7 +212,6 @@ public class Board {
                 i++;
             }
         }
-        
         lines += cleared;
         switch (cleared) {
             case 0:
