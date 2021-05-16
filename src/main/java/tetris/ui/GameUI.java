@@ -63,10 +63,17 @@ public class GameUI {
         left.getChildren().add(lines);
         left.getChildren().add(level);
         
-        Button pauseButton = new Button();
+        Button pauseButton = new Button("Pause");
         pauseButton.setMinSize(50, 50);
         pauseButton.relocate(20, 400);
         pauseButton.setFocusTraversable(false);
+        pauseButton.setBackground(new Background(new BackgroundFill(Color.web("0xd4d4d4"), CornerRadii.EMPTY, Insets.EMPTY)));
+        pauseButton.setOnMouseEntered(eh -> {
+            pauseButton.setBackground(new Background(new BackgroundFill(Color.web("0x919191"), CornerRadii.EMPTY, Insets.EMPTY)));
+        });
+        pauseButton.setOnMouseExited(eh -> {
+            pauseButton.setBackground(new Background(new BackgroundFill(Color.web("0xd4d4d4"), CornerRadii.EMPTY, Insets.EMPTY)));
+        });
         right.getChildren().add(pauseButton);
         
         Pane pauseScreen = new Pane();
