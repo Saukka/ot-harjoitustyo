@@ -1,6 +1,7 @@
 
 package tetris.domain;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import javafx.stage.Stage;
@@ -15,6 +16,8 @@ import tetris.ui.MenuUI;
 import java.util.Collections;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import tetris.dao.HighScores;
 import tetris.domain.Tetromino.shape;
 
@@ -226,7 +229,10 @@ public class Tetris {
                     menu.setLayoutY(465);
                     left.getChildren().add(menu);
                     menu.setOnAction(e-> {
-                        ui.start(window);
+                        try {
+                            ui.start(window);
+                        } catch (IOException ex) {
+                        }
                     });
                     try {
                        scores.addScore(board.score, thin); 
