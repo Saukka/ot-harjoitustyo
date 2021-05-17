@@ -18,6 +18,8 @@ Jokainen tetris-palikka muodostuu neljästä Square-oliosta. Square-oliolla on y
 
 Tetromino-luokassa on eri palikoiden ominaisuudet kuten koordinaatit ja värit. 
 
+Pelin loppuessa pelin pisteet kirjataan ylös scores.txt tiedostoon HighScores-luokan avulla.
+
 Pääluokkien päätoiminnallisuudet, mihin pelin pelaaminen perustuu ja miten se toimii:
 
 <img width="600" alt="Päätoiminnallisuudet" src="https://user-images.githubusercontent.com/80990021/118416078-9b418e80-b6b6-11eb-889a-2b2696687009.png">
