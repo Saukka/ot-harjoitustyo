@@ -53,3 +53,5 @@ mvn jxr:jxr checkstyle:checkstyle
 [Käyttöohje](https://github.com/Saukka/ot-harjoitustyo/blob/master/dokumentaatio/Käyttöohje.md)
 
 [Arkkitehtuurikuvaus](https://github.com/Saukka/ot-harjoitustyo/blob/master/dokumentaatio/arkkitehtuuri.md)
+
+[Testaus](https://github.com/Saukka/ot-harjoitustyo/blob/master/dokumentaatio/testaus.md)
