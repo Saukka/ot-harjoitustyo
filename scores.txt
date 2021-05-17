@@ -1,4 +1,0 @@
-40210 normal
-113400 normal
-184320 thin
-40448 thin
