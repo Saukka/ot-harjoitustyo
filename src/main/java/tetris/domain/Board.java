@@ -157,7 +157,6 @@ public class Board {
             if (current.piece.getCoords()[i][1] + current.y > 4) {
                 endGame = false;
             }
-            
         }
         end = endGame;
         canSwapHold = true;

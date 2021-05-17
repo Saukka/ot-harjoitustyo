@@ -1,7 +1,6 @@
 
 package tetris.ui;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
@@ -9,7 +8,6 @@ import java.util.Map.Entry;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.Label;
 import javafx.application.Application;
-import javafx.geometry.Insets;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.Scene;

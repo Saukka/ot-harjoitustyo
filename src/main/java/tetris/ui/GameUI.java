@@ -29,12 +29,12 @@ public class GameUI {
     
     public void start(Stage window, ArrayList<KeyCode> keys, int startLevel, boolean thin, HighScores scores) {
 
-        Rectangle nextBox = new Rectangle(0, 56, 168, 112);
+        Rectangle nextBox = new Rectangle(5, 64, 172, 112);
         nextBox.setArcHeight(22);
         nextBox.setArcWidth(22);
         nextBox.setFill(Color.web("0x3D3D3D"));
         
-        Rectangle holdBox = new Rectangle(28, 56, 168, 112);
+        Rectangle holdBox = new Rectangle(30, 64, 172, 112);
         holdBox.setArcHeight(22);
         holdBox.setArcWidth(22);
 
