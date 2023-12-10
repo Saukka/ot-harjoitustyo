@@ -6,6 +6,10 @@ Sovelluksen avulla voi pelata klassisen tyyppistä Tetristä. Ylhäältä tippuu
 
 Sovellus on testattu toimivaksi laitoksen koneella etätyöpöytää käyttäen. Tietyt fontit saattavat tosin puuttua ja napit näkyvät paljon huonommin. Viikolla 6 sovellus ei tästä huolimatta ilmeisesti toiminut oikein, mutta en saanut labtoolissa vastausta kysymykseeni, joten toivon sovelluksen toimivan testattaessa.
 
+Kuva pelistä:
+
+<img width="615" alt="Peliruutu" src="https://user-images.githubusercontent.com/80990021/118417135-671c9c80-b6bb-11eb-89ff-0bc03e98978e.png">
+
 ### Releaset
 
 [Viikko 6](https://github.com/Saukka/ot-harjoitustyo/releases/tag/viikko6)
